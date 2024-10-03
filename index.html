@@ -1,0 +1,3230 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <title>Glosario de Conceptos en Latín</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1e;
+            /* Fondo oscuro */
+            color: #dcdcdc78;
+            /* Texto claro */
+        }
+
+        header {
+            background-color: #3b3b4f;
+            /* Un color oscuro más suave para el header */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            /* Sombra del header */
+            margin-top: 80px;
+            /* Espacio para evitar que se empalme con el banner */
+        }
+
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2c2c2e;
+            /* Fondo oscuro para el main content */
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+            /* Sombra más pronunciada */
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+
+        .autocomplete-suggestions {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #2c2c2e;
+            border: 0px solid #444444;
+            border-top: none;
+            z-index: 1000;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            /* Bordes redondeados */
+
+            /* Espacio interno opcional */
+        }
+
+
+        .autocomplete-suggestion {
+            padding: 10px;
+            border-bottom: 1px solid #444444;
+            cursor: pointer;
+            color: #dcdcdc;
+            /* Texto claro */
+        }
+
+        .autocomplete-suggestion:hover {
+            background-color: #3b3b4f;
+            /* Efecto hover en sugerencias */
+        }
+
+        .glossary-item {
+            padding: 15px;
+            border-bottom: 1px solid #444444;
+            display: block;
+            background-color: #2e2e38;
+            /* Fondo oscuro para cada ítem del glosario */
+            color: #dcdcdc;
+            /* Texto claro */
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+            /* Sombra para cada ítem */
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #dcdcdc;
+            /* Título claro */
+        }
+
+        .term {
+            font-weight: bold;
+            color: #ffffff;
+            /* Términos en blanco */
+        }
+
+        .definition {
+            color: #a0a0a0;
+            /* Definiciones en gris claro */
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+            position: fixed;
+            /* Fija la barra de búsqueda */
+
+            /* Aumenta este valor para moverlo más abajo */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            z-index: 100;
+            margin-top: 50px;
+            /* Ajusta el valor según la altura que desees */
+
+        }
+
+        .search-container {
+            margin-top: 50px;
+            /* Ajusta este valor según la altura de tu banner */
+        }
+
+
+
+
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            /* Ajusta el ancho máximo */
+            padding: 10px 20px;
+            /* Espaciado interno */
+            font-size: 16px;
+            border: 2px solid #ced4da;
+            /* Borde estilo Bootstrap */
+            border-radius: 25px;
+            /* Bordes redondeados */
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            /* Sombra ligera para darle profundidad */
+            background-color: #f8f9fa;
+            /* Color de fondo claro estilo Bootstrap */
+            color: #222427;
+            /* Color del texto estilo Bootstrap */
+            transition: all 0.5s ease-in-out;
+            /* Transición suave en hover */
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #8a96a2;
+            /* Color de borde al hacer foco */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            /* Efecto de sombra en el foco */
+        }
+
+        .search-box::placeholder {
+            color: #6c757d;
+            /* Color del texto del placeholder */
+        }
+
+        .search-box:hover {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            /* Sombra más pronunciada en hover */
+        }
+
+
+        /* Después de la carga, ajusta el margen */
+        .search-box.move-to-position {
+            margin-top: 80px;
+            /* Ajusta este valor para dejar espacio debajo del banner */
+        }
+
+        .search-container {
+            margin-top: 10px;
+            /* Inicialmente ajusta la posición */
+            transition: all 0.5s ease;
+            /* Transición suave */
+        }
+
+        .search-container.fixed {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            /* Puedes ajustar el ancho según sea necesario */
+            z-index: 1000;
+            margin-top: 0;
+            padding: 10px 0;
+            /* Ajusta el padding si es necesario */
+        }
+
+
+        main {
+            margin-top: 200px;
+            /* Aumenta esto para dar más espacio debajo de la barra de búsqueda */
+        }
+
+
+
+        .banner {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: right;
+            /* Alinea el contenido a la derecha */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .toggle-button {
+            background-color: transparent;
+            /* Sin fondo */
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            position: absolute;
+            /* Posición absoluta */
+            right: 20px;
+            /* Alineado a la derecha */
+            top: 10px;
+            /* Espacio desde la parte superior */
+        }
+
+        #links {
+            display: none;
+            margin-top: 10px;
+            /* Espacio entre el botón y los enlaces */
+            text-align: right;
+            /* Alineación de los enlaces a la derecha */
+        }
+
+        .static-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px 0;
+            /* Espacio vertical entre botones */
+            transition: background-color 0.3s;
+            display: block;
+            /* Cambiado a bloque para escalonar */
+            border: 2px solid white;
+            border-radius: 5px;
+            opacity: 0;
+            /* Oculto inicialmente */
+            pointer-events: none;
+            /* Desactiva los eventos de puntero */
+        }
+
+        .static-link.visible {
+            opacity: 1;
+            /* Visible */
+            pointer-events: auto;
+            /* Activa los eventos de puntero */
+        }
+
+        /* Margen superior para el contenido */
+        .content {
+            margin-top: 60px;
+            /* Ajusta este valor según la altura del banner */
+        }
+
+        .static-link:hover {
+            background-color: #555570;
+            /* Cambia el color al pasar el mouse */
+        }
+
+
+        /* Estilo del banner */
+        .navbar {
+            background-color: #333;
+            position: fixed;
+            /* Mantiene el banner fijo en la parte superior */
+            top: 0;
+            /* Asegura que esté en la parte superior */
+            left: -10px;
+            /* Asegura que cubra todo el ancho */
+            width: 101%;
+            /* Cubre todo el ancho de la página */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            /* Centra verticalmente */
+            justify-content: space-between;
+            /* Espacio entre logotipos y botón */
+            padding: 10px 20px;
+            /* Espaciado interno */
+        }
+
+        /* Estilo de las imágenes */
+        .navbar img {
+            height: 40px;
+            /* Ajusta la altura de las imágenes */
+            margin-right: 15px;
+            /* Espacio entre las imágenes */
+        }
+
+        /* Agrupa las imágenes */
+        .logo-group {
+            display: flex;
+            /* Permite que las imágenes estén en línea */
+            align-items: center;
+            /* Alinea las imágenes verticalmente */
+        }
+
+        /* Estilo personalizado del botón de hamburguesa */
+        .navbar-toggler {
+            border: none;
+            /* Elimina el borde del botón */
+            background-color: transparent;
+            /* Hace el fondo transparente */
+            padding: 0;
+            /* Elimina el padding del botón */
+            margin-left: auto;
+            /* Empuja el botón a la derecha */
+        }
+
+        .navbar-toggler-icon {
+            width: 30px;
+            /* Ajusta el tamaño del ícono */
+            height: 30px;
+        }
+
+        /* Para pantallas pequeñas, alinea todo al centro */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                /* Cambia a columna en pantallas pequeñas */
+                align-items: flex-start;
+                /* Alinea los elementos a la izquierda */
+            }
+
+
+            .logo-group {
+                margin-bottom: 10px;
+                /* Espacio entre los logotipos y el botón */
+            }
+
+            .navbar-brand {
+                margin-left: 10px;
+                /* Espacio entre el logo y el título */
+            }
+
+
+        }
+
+
+
+        /* Aplica un margen superior en la sección */
+        #principios-derecho {
+            padding-top: 200px;
+            /* Espacio en la parte superior */
+            margin-top: -200px;
+            /* Evita que se superponga al scroll */
+        }
+
+        /* Aplica un margen superior en la sección */
+        #titulo {
+            padding-top: 200px;
+            /* Espacio en la parte superior */
+            margin-top: -200px;
+            /* Evita que se superponga al scroll */
+            font-size: 40px;
+        }
+
+
+
+        .col-md-7 p {
+            margin-bottom: 1px;
+            margin-left: 10%;
+            /* Ajusta el valor según el espacio que desees */
+
+        }
+
+        #principios-derecho .glossary-item {
+            background-color: #6c6cac48;
+            /* Color elegante, oscuro */
+            color: #e0e0e0;
+            /* Texto claro para contraste */
+            border-radius: 8px;
+            /* Bordes redondeados para suavizar el diseño */
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            /* Sombra suave */
+        }
+
+        #principios-derecho .glossary-item .term {
+            font-weight: bold;
+            color: #ffffff;
+            /* Términos en blanco para énfasis */
+        }
+
+        #principios-derecho .glossary-item .definition {
+            color: #c0c0c0;
+            /* Definiciones en gris claro */
+        }
+
+        #principios-derecho h2 {
+            color: #ffffff;
+            font-size: 40px;
+            /* Título claro */
+        }
+
+        .referencia {
+            color: #677f99;
+            /* Color del enlace */
+            text-decoration: underline;
+            /* Subrayado del enlace */
+            font-style: italic;
+            /* Cursiva para resaltar la referencia */
+        }
+
+        .referencia:hover {
+            color: #2a3e53;
+            /* Color más oscuro al pasar el ratón */
+        }
+
+        footer {
+            text-align: left;
+            /* Alinea el texto a la derecha */
+            padding: 30px;
+
+        }
+
+        footer p {
+            margin: 0;
+            /* Elimina el margen del párrafo */
+        }
+
+        footer a {
+            color: #007bff;
+            /* Color del enlace */
+            text-decoration: none;
+            /* Sin subrayado */
+            font-weight: bold;
+            /* Texto en negrita */
+        }
+
+        footer a:hover {
+            color: #0056b3;
+            /* Color del enlace al pasar el mouse */
+            text-decoration: underline;
+            /* Subrayado al pasar el mouse */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 id="titulo">Glosario de Conceptos en Latín </h1>
+        <h3>Facultad de Derecho</h3>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Buscar concepto..." onkeyup="mostrarSugerencias()">
+            <div class="autocomplete-suggestions" id="sugerencias"></div>
+        </div>
+
+        <nav class="navbar navbar-brand navbar-dark">
+            <div class="container-fluid">
+                <div class="logo-group">
+                    <img src="https://i.postimg.cc/gc1jRdG2/logo-uach-blanco-horizontal.png" alt="Logo 1" />
+                    <img src="https://i.postimg.cc/nzRZnKhL/derechologopagina-1.png" alt="Logo 2" />
+                </div>
+
+                <!-- Botón de hamburguesa -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Links que se ocultan/colapsan en pantallas pequeñas -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#titulo">Inicio de Pagina</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#principios-derecho">Principios de Derecho</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#footer">Colaboradores y Referencias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="https://drive.google.com/file/d/1lu7Ciws40ZBBA8-8in1Eiu5tHE7PgsaT/view?usp=sharing">Descargar</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
+
+    </header>
+
+    <main>
+
+
+        <div class="glossary" id="glosario">
+            <div class="glossary-item" data-term="a contrario imperio">
+                <span class="term">A contrario imperio</span>: A poder contrario. //
+                <span class="definition">En derecho procesal panameño, salvadoreño y costarricense, la potestad de quien
+                    juzga y ejecuta para revocar o modificar lo que con anterioridad había resuelto. // Por un segundo
+                    tribunal, que tiene la facultad excepcional de resolver lo que ha sido decidido por otro tribunal
+                    anteriormente en proceso autónomo y posterior. Revocar a contrario imperio. // Capacidad que tiene
+                    un tribunal para revocar una resolución sin necesidad de rogación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a contrario sensu">
+                <span class="term">A contrario sensu</span>: En sentido contrario. //
+                <span class="definition">Se aplica a los razonamientos que deducen por oposición, ya frente a una
+                    situación de hecho, o bien para interpretar una cláusula contractual o un texto legal. // Que se
+                    argumenta a partir de lo que no se expresa en la norma o sentencia de referencia, o en el resultado
+                    de la prueba practicada.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a fortiori">
+                <span class="term">A fortiori</span>: Con mayor razón, a mayor abundamiento. //
+                <span class="definition">Argumento que resulta proveniente de una razón superior.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a mensa et thoro">
+                <span class="term">A mensa et thoro</span>: De la mesa y de la cama. //
+                <span class="definition">Separación de un matrimonio sin divorcio legal.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a posteriori">
+                <span class="term">A posteriori</span>: A partir de lo que viene después. //
+                <span class="definition">Con posterioridad. // Aplazadamente, más tarde. // Argumento derivado después
+                    de un evento teniendo conocimiento de tal evento. // Razonamiento inductivo a partir de
+                    observaciones y experimentación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a priori">
+                <span class="term">A priori</span>: A partir de lo que precede. //
+                <span class="definition">Previamente. // Con anterioridad. // Argumento derivado antes de un evento sin
+                    tener que necesitar conocimiento de tal evento. // Razonamiento deductivo a partir de principios
+                    generales.</span>
+            </div>
+
+            <div class="glossary-item" data-term="a quo">
+                <span class="term">A quo</span>: Desde el cual. //
+                <span class="definition">Dicho del juez o tribunal autor de la resolución: Que se recurre ante otro
+                    tribunal superior o ad quem.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab absurdo">
+                <span class="term">Ab absurdo</span>: Por el absurdo. //
+                <span class="definition">Argumento que resulta contrario y opuesto a la razón.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab extra">
+                <span class="term">Ab extra</span>: Desde el exterior. //
+                <span class="definition">Dicho de una persona que puede estar recibiendo información, patrocinio, o
+                    estar actuando conforme a los intereses de un tercero ajeno en un proceso judicial. (No confundir
+                    con los efectos de la norma ad extra).</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab habita notitia">
+                <span class="term">Ab habita notitia</span>: Desde habida noticia. //
+                <span class="definition">Expresión en el derecho canónico que indica el término inicial o final de un
+                    plazo legal, de un acto o de una situación jurídica.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab homine">
+                <span class="term">Ab homine</span>: Desde el hombre. //
+                <span class="definition">Dicho en el Derecho Canónico respecto de un determinado efecto jurídico: Que
+                    deriva de un acto de la autoridad competente, y no directamente de una norma. Esta expresión se
+                    emplea con frecuencia para designar las facultades que se adquieren por delegación, es decir, por un
+                    acto de concesión ab homine, frente a las ordinarias, que proceden del derecho (a iure). (No
+                    confundir con el argumento ad hominem).</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab initio">
+                <span class="term">Ab initio</span>: Desde su inicio. //
+                <span class="definition">Desde el principio. // Desde el comienzo. // Expresión referida al origen o
+                    principio de las cosas o de las personas. (Véase también ab origine y ab ovo).</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab intestato">
+                <span class="term">Ab intestato</span>: Sin testamento. //
+                <span class="definition">Persona que muere sin dejar testamento, y persona que, en tales condiciones, la
+                    heredan.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab irato">
+                <span class="term">Ab irato</span>: De manera iracunda. //
+                <span class="definition">Arrebato, obcecación u otro estado pasional semejante.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab omni negotio">
+                <span class="term">Ab omni negotio</span>: Fraus abesto. //
+                <span class="definition">En todo negocio, excluido el fraude. // Axioma rector, propio de la buena fe en
+                    negociar.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab origine">
+                <span class="term">Ab origine</span>: Desde el origen. //
+                <span class="definition">Expresión referida al origen o principio de las cosas o de las personas. (Véase
+                    también Ab initio y ab ovo).</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab ovo">
+                <span class="term">Ab ovo</span>: Desde el huevo. //
+                <span class="definition">Expresión referida a desde cero o desde el origen. (Véase también Ab initio. y
+                    ab origine).</span>
+            </div>
+
+            <div class="glossary-item" data-term="ab re">
+                <span class="term">Ab re</span>: Desde la realidad. //
+                <span class="definition">Argumento descalificativo en contra de toda razón.</span>
+            </div>
+
+            <div class="glossary-item" data-term="abrogatio">
+                <span class="term">Abrogatio, abrogationis (pronun. abrogacio, abrogacionis)</span>: Abrogar. //
+                <span class="definition">Abrogación. // Suprimir o dejar sin efecto en su totalidad una ley, por otra
+                    posterior. (No confundir con derogar (derogatio, derogationis) que significa también suprimir o
+                    dejar sin efecto una ley por otra posterior, pero no en su totalidad sino parcialmente).</span>
+            </div>
+
+            <div class="glossary-item" data-term="absque hoc">
+                <span class="term">Absque hoc</span>: Sin esto. //
+                <span class="definition">Dicho de la estrategia oral de presentar en respuesta de alegado la parte más
+                    perjudicial de lo alegado por la contraparte.</span>
+            </div>
+
+            <div class="glossary-item" data-term="absque ulla conditione">
+                <span class="term">Absque ulla conditione</span>: Sin ninguna condición. //
+                <span class="definition">Exceptuada de condición.</span>
+            </div>
+
+            <div class="glossary-item" data-term="accession">
+                <span class="term">Accesión</span>: Cuando una cosa se adhiere a otra de forma inseparable, en cuyo caso
+                será dueño del conjunto el dueño de la cosa principal.</span>
+            </div>
+
+            <div class="glossary-item" data-term="accipiens">
+                <span class="term">Accipiens</span>: El que recibe / adquiriente / receptor. //
+                <span class="definition">Palabra que designa a la persona que recibe un pago.</span>
+            </div>
+
+            <div class="glossary-item" data-term="accipiens">
+                <span class="term">Accipiens</span>: Receptor. //
+                <span class="definition">Preceptor. // Aceptante. // Adquirente o que recibe. // Que percibe. // Palabra
+                    latina que designa a la persona que recibe un pago.</span>
+            </div>
+
+            <div class="glossary-item" data-term="aclaratio terminis">
+                <span class="term">Aclaratio terminis</span>: Aclarar términos y/o significados.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio ad supplendam legitimam">
+                <span class="term">Actio ad supplendam legitimam</span>: Determinaba una redistribución del patrimonio
+                hereditario para completar la cuota de los herederos legítimos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio commodati contraria">
+                <span class="term">Actio commodati contraria</span>: Acción contraria de comodato. //
+                <span class="definition">Acción del comodatario que se usa para reclamar los gastos extraordinarios
+                    surgidos con motivo de la conservación de la cosa, así como los daños y perjuicios ocasionados, con
+                    la ventaja de poder retener el objeto, en tanto el comodante no cumpla con su obligación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio commodati directa">
+                <span class="term">Actio commodati directa</span>: Acción directa de comodato. //
+                <span class="definition">Acción del comodante para que le sea devuelto el objeto dado en comodato y para
+                    reclamar los daños y perjuicios que se le hubieren ocasionado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio communi dividendo">
+                <span class="term">Actio communi dividendo</span>: Acción de división. //
+                <span class="definition">Que es una de las acciones divisorias, precisamente la que servía para pedir la
+                    división de la cosa común.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio de positis et suspensis">
+                <span class="term">Actio de positis et suspensis</span>: Acción acerca de cosas colocadas y suspendidas.
+                //
+                <span class="definition">La que podía ejercitarse contra el ocupante de una casa que hubiese colocado o
+                    suspendido en ella, de manera peligrosa, algún objeto capaz de ocasionar daño a un transeúnte,
+                    aunque el daño no se hubiese producido y tanto si el habitante había actuado con culpa como si no.
+                    Se le imponía el pago de una multa. (Véase actio effusis et deiectis).</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio de rationibus distrahendis">
+                <span class="term">Actio de rationibus distrahendis</span>: Acción acerca de sustracción. //
+                <span class="definition">La que podía ejercer el pupilo contra el tutor para exigir a éste el pago de
+                    una multa igual al doble del valor de los objetos que hubiera sustraído. Teniendo en cuenta el
+                    carácter penal de esta acción, no podía ser ejercida contra los herederos del tutor.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio de tigno iuncto">
+                <span class="term">Actio de tigno iuncto</span>: Acción acerca de viga juntada. //
+                <span class="definition">La ley de las XII Tablas contenía una disposición especial para el caso en que
+                    el propietario hubiese construido sobre su suelo, incorporando al edificio materiales robados,
+                    tignum furtivum, pues, aun prohibiendo al dueño de esos materiales ejercitar la acción ad exhibendum
+                    para demoler el edificio, le daba la acción especial de tigno iuncto, mediante la cual podía obtener
+                    del constructor, mientras la casa estuviese en pie, el doble del valor de los materiales.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio depositi contraria">
+                <span class="term">Actio depositi contraria</span>: Acción contraria de depósito. //
+                <span class="definition">Acción en razón del depósito, se concede al depositario para que el depositante
+                    remiso cumpla con sus obligaciones.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio depositi directa">
+                <span class="term">Actio depositi directa</span>: Acción directa de depósito. //
+                <span class="definition">Acción en razón del depósito, se concede al depositante para que el depositario
+                    remiso cumpla con sus obligaciones.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio doli">
+                <span class="term">Actio doli</span>: Acción por dolo. //
+                <span class="definition">Acción que ejercita el que sufre el dolo o fraude contra su autor. Tiene por
+                    objeto la indemnización de daños por el perjuicio sufrido.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio dotis">
+                <span class="term">Actio dotis</span>: Acción de dote. //
+                <span class="definition">La otorgada a la mujer o a sus herederos, aun no mediando convención, a fin de
+                    hacer que la obligación de restituir la dote fuese de esencia del régimen dotal.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio effusis et deiectis">
+                <span class="term">Actio effusis et deiectis</span>: Acción de expulsión o caída. //
+                <span class="definition">Acción por reparación del daño causado por cosas arrojadas o caídas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio empti">
+                <span class="term">Actio empti</span>: Acción de compra civil y de buena fe. //
+                <span class="definition">Derivada del contrato consensual de compraventa (emptio-venditio) con la que el
+                    comprador reclama la cosa vendida. Con ella puede exigir también del vendedor que le mantenga en el
+                    disfrute pacífico de la cosa y le defienda contra las acciones del propietario. Cuando después del
+                    contrato se deban acrecimientos, también el comprador puede reclamarlos con esta acción.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio ex stipulatu">
+                <span class="term">Actio ex stipulatu</span>: Acción por estipulación. //
+                <span class="definition">De la stipulatio nacían tres acciones distintas, según cuál fuese el objeto de
+                    la obligación: la condictio certae pecuniae, cuando versaba sobre una suma de dinero; la condictio
+                    triticaria, si se refería a un cuerpo cierto o una cantidad determinada de cosas, especialmente
+                    grano, y la actio ex stipulatu, si recaía sobre un acto o una abstención o algo de valor
+                    indeterminado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio ex testamento">
+                <span class="term">Actio ex testamento</span>: Acción testamentaria. //
+                <span class="definition">En el legado per damnationem el legatario no adquiría la propiedad de la cosa
+                    legada hasta que le era transmitida por el heredero, del cual resultaba acreedor por la obligación
+                    que sobre él pesaba y que podía serle exigida por dos acciones personales: la condictio certi y la
+                    ex testamento.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio exercitoria">
+                <span class="term">Actio exercitoria</span>: Acción concerniente al ejercicio. //
+                <span class="definition">La concedida a los terceros contra el armador de un buque (exercitor navis)
+                    para hacer exigibles las obligaciones que resultaren de los contratos celebrados con el esclavo que
+                    estuviera a cargo del navío (magister navis), dentro de los límites de las instrucciones impartidas
+                    por el amo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio familiae erciscundae">
+                <span class="term">Actio familiae erciscundae</span>: La que en el Derecho Romano correspondía a los
+                herederos para la partición de la herencia indivisa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio fiduciae contraria">
+                <span class="term">Actio fiduciae contraria</span>: Acción contraria de fiducia. //
+                <span class="definition">En contraposición a la actio fiduciae, se concedió al fiduciario la actio
+                    fiduciae contraria, a efectos de que pudiera reclamar al fiduciante los gastos y perjuicios que la
+                    fiducia le hubiera ocasionado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio fiduciae">
+                <span class="term">Actio fiduciae</span>: Acción de fiducia. //
+                <span class="definition">Como en un principio la fiducia no concedía ninguna acción al fiduciante para
+                    exigir del fiduciario la restitución de la cosa cuando se hubiese cumplido la causa que la había
+                    originado, la jurisprudencia clásica creó la actio fiduciae, a efectos de subsanar aquella omisión.
+                    Luego fue ampliada frente a cualquier infracción de lo convenido en el pacto de fiducia o por el uso
+                    ilícito de la cosa entregada.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio finium regundorum">
+                <span class="term">Actio finium regundorum</span>: Acción de deslinde. //
+                <span class="definition">Acción divisoria entre propietarios colindantes para fijar los linderos entre
+                    fundos contiguos. El deslinde y amojonamiento puede ser solicitado por el dueño de un terreno o el
+                    que tuviese sobre él algún derecho real para su uso y disfrute.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio furti concepti">
+                <span class="term">Actio furti concepti</span>: Acción de encubrimiento de hurto. //
+                <span class="definition">Se llamaba así la que se daba contra la persona en cuya casa se encontraba, con
+                    presencia de testigos, la cosa robada, porque la ocultación fue calificada por la ley de las XII
+                    Tablas como furtum.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio furti non exhibiti">
+                <span class="term">Actio furti non exhibiti</span>: Acción por no exhibir lo robado. //
+                <span class="definition">La correspondiente al caso de que el ocultador de una cosa robada no la
+                    presentase cuando fuera requerido para ello.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio furti prohibiti">
+                <span class="term">Actio furti prohibiti</span>: La que se podía ejercitar contra el ocultador que se
+                oponía a la busca de la cosa robada si, de las pesquisas realizadas mediante un procedimiento especial,
+                la cosa era descubierta en su poder, porque la ley de las XII Tablas lo consideraba como ladrón
+                manifiesto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio furti">
+                <span class="term">Actio furti</span>: Acción de hurto. //
+                <span class="definition">Se daba contra el autor de un hurto, sus cómplices y colaboradores. Podían
+                    ejercitarla tanto el propietario de la cosa hurtada como cualquier otra persona legítimamente
+                    interesada. En un principio sólo podían usar de ella los ciudadanos romanos, pero luego se extendió
+                    a los extranjeros.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio hypothecaria">
+                <span class="term">Actio hypothecaria</span>: Acción hipotecaria. //
+                <span class="definition">(Véase actio quasi serviana).</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio illicita in causa">
+                <span class="term">Actio illicita in causa</span>: Construcción de la dogmática penal paralela a la de
+                la actio libera in causa y aplicable a la anterior provocación dolosa o imprudente de la situación
+                generadora de una causa de justificación. //
+                <span class="definition">Según tal construcción, la conducta final lesiva de algún bien jurídico está
+                    ciertamente justificada, pero al ser ilícita en origen (in causa) la conducta inicial que provocó
+                    sin necesidad y con dolo, directo o eventual, o con imprudencia la situación de conflicto que hay
+                    que resolver mediante la causa de justificación (con dolo neutro), el sujeto provocador puede
+                    responder por delito doloso o imprudente, porque el resultado final lesivo se puede vincular en
+                    relación causal y de imputación objetiva a la dolosa o imprudente acción provocadora.</span>
+            </div>
+            <div class="glossary-item" data-term="actio in duplum">
+                <span class="term">Actio in duplum</span>: Acción en doble. //
+                <span class="definition">Acción en razón del depósito, se concede al depositante que consiste en la
+                    devolución hasta por el doble del valor del objeto depositado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio in ius, actio in ius concepta">
+                <span class="term">Actio in ius, actio in ius concepta</span>: Acción concebida, originada, formada en
+                Derecho. //
+                <span class="definition">La acción, de origen pretorio civil, cuya fórmula contenía una intensa que
+                    planteaba al juez una cuestión exclusivamente de Derecho, al mismo tiempo que exponía lo pretendido
+                    por el demandante. A la inversa de la actio in factum, la conformidad en los hechos, o la falta de
+                    controversia acerca de ellos mismos, centraba la causa y su resolución en un punto exclusivamente
+                    jurídico, de existencia de una norma o de su interpretación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio in personam">
+                <span class="term">Actio in personam</span>: Acción personal o sobre la persona.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio in rem scripta">
+                <span class="term">Actio in rem scripta</span>: Acción real escrita o de reembolso.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio in rem verso">
+                <span class="term">Actio in rem verso</span>: Acción para hacer volver. //
+                <span class="definition">Facultad que permite el reembolso de la utilidad producida cuando quien ha
+                    hecho el pago es un tercero no interesado y lo realiza contra la expresa voluntad del deudor.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio in rem">
+                <span class="term">Actio in rem</span>: Acción real o sobre la cosa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio ingrati">
+                <span class="term">Actio ingrati</span>: Acción por ingratitud. //
+                <span class="definition">Recibía ese nombre la que podía ejercitar el patrono contra el esclavo por él
+                    manumitido, para volverlo a la esclavitud. Sólo le era permitida mediante causa justificada.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio iniuriarum">
+                <span class="term">Actio iniuriarum</span>: Acción de lesiones. //
+                <span class="definition">Acción a favor de la víctima del delito de injurias contra el autor de dicho
+                    delito.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio institoria">
+                <span class="term">Actio institoria</span>: Acción referente al vendedor o viajante. //
+                <span class="definition">La ejercitable contra el amo por las obligaciones contraídas con terceros por
+                    el esclavo designado agente o factor (institor) de un negocio perteneciente al dominus.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio institutoria">
+                <span class="term">Actio institutoria</span>: Acción de institución. //
+                <span class="definition">Denominación moderna para la acción otorgada por el pretor contra el tercero
+                    que, infringiendo lo dispuesto en el senado consulto Veleyano, había sido relevado de una obligación
+                    por una mujer. El nombre se le daba porque, en cierto modo, el pretor crea, instituit (instituye),
+                    una obligación para el beneficiario de la intercesión de la mujer, prohibida por aquel precepto del
+                    cónsul Veleyo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio iudicati">
+                <span class="term">Actio iudicati</span>: Acción derivada del juicio. //
+                <span class="definition">En el procedimiento formulario, la correspondiente contra el demandado que,
+                    luego de la condena en juicio, no ejecutaba voluntariamente la sentencia del magistrado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio iudicis postulatio">
+                <span class="term">Actio iudicis postulatio</span>: Acción de juicio postulado. //
+                <span class="definition">Parece que fue establecida, en el procedimiento romano, para remediar los
+                    inconvenientes de la actio sacramenti, no solo porque en ésta los litigantes se exponían a perder la
+                    cantidad apostada, sino también porque el juez únicamente podía declarar si el sacramentum era justo
+                    o injusto, sin cambiar nada de la demanda, que tenía que ser admitida o rechazada tal como había
+                    sido formulada. En la iudicis postulatio, el juez tenía mayor libertad de apreciación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio Legis Aquiliae">
+                <span class="term">Actio Legis Aquiliae</span>: Acción de la Ley Aquilia. //
+                <span class="definition">Producido el daño, la reparación era exigida por una acción especial de
+                    carácter penal, creada por la misma ley.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio legis">
+                <span class="term">Actio legis</span>: Acción legal, Acción de la ley. //
+                <span class="definition">En Roma, el procedimiento judicial para la efectividad de un derecho reconocido
+                    legalmente o para efectuar un negocio jurídico con la intervención del magistrado y empleando las
+                    exactas palabras solemnes del texto de la ley.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio libera in causa">
+                <span class="term">Actio libera in causa</span>: Acción que libera en la causa. //
+                <span class="definition">Llamada también actio ad libertatem. Construcción de la dogmática penal,
+                    aplicable a la provocación dolosa o imprudente de una causa de ausencia de acción, como el sueño,
+                    desmayo o inconsciencia en general, o una causa de inimputabilidad, como el trastorno mental
+                    transitorio o la intoxicación por alcohol o drogas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio locati">
+                <span class="term">Actio locati</span>: Acción de lo arrendado. //
+                <span class="definition">Llamada también ex locato, era en el Derecho Romano la que se daba a favor del
+                    locador para exigir del locatario el cumplimiento de las obligaciones por él contraídas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio metus">
+                <span class="term">Actio metus</span>: Acción por causa de miedo. //
+                <span class="definition">La penal, pretoria e in factum, otorgada por el pretor Octavio, que permitía
+                    condenar al cuádruple del perjuicio, durante el primer año, y luego a otro tanto, al responsable del
+                    delito de miedo y a todos los que se hubieran beneficiado de éste.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio Pauliana">
+                <span class="term">Actio Pauliana</span>: Acción de paulus. //
+                <span class="definition">Acción revocatoria o rescisoria que corresponde al acreedor para impugnar los
+                    actos o contratos que el deudor haya realizado o celebrado en fraude de su derecho de crédito. Se le
+                    da este nombre por Paulus, jurisconsulto romano de la época de Alejandro Severo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio pigneraticia contraria">
+                <span class="term">Actio pigneraticia contraria</span>: Acción de prenda contraria. //
+                <span class="definition">Acción derivada del contrato de prenda, en favor del acreedor prendario, para
+                    sancionar las obligaciones del deudor y permitirle reclamar la indemnización de los gastos
+                    realizados en la cosa recibida en prenda.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio pigneraticia directa">
+                <span class="term">Actio pigneraticia directa</span>: Acción de prenda directa. //
+                <span class="definition">Acción derivada del contrato de prenda, en favor del deudor que entregó la cosa
+                    en garantía, a fin de exigir del acreedor prendario la recta conservación de la cosa y su
+                    restitución una vez satisfecha la deuda.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio praescriptis verbis">
+                <span class="term">Actio praescriptis verbis</span>: Acción según las palabras prescritas. //
+                <span class="definition">Acción que amparaba los derechos nacidos en un contrato innominado y concedía
+                    la parte que había cumplido la convención, a fin de conseguir la ejecución de sus obligaciones por
+                    la otra. El nombre procede de que ciertas fórmulas de la época clásica contenían al comienzo alguna
+                    frase para explicar el acto jurídico al cual se refería, y el demandante debía estar comprendido en
+                    las praescriptis verbis.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio publiciana">
+                <span class="term">Actio publiciana</span>: Acción publicidad. //
+                <span class="definition">Acción fictiva, semejante y paralela a la de reivindicatio que se concede a
+                    quien, no siendo propietario quiritario, es poseedor de buena fe y puede adquirir la propiedad por
+                    usucapión, y en contra de quien pretenda perjudicar su derecho.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio quanti minoris">
+                <span class="term">Actio quanti minoris</span>: Acción de la cantidad menor. //
+                <span class="definition">Acción concedida al comprador en la compraventa cuando existían vicios o
+                    defectos ocultos para obtener una disminución en el precio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio quod metus causa">
+                <span class="term">Actio quod metus causa</span>: Acción por causa de miedo. //
+                <span class="definition">Acción que se concede a quien ha visto perjudicados sus intereses contra
+                    quienes han obtenido algún lucro o ganancia por el miedo o intimidación, aunque no hubiere
+                    intervenido en el acto que lo causó.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio redhibitoria">
+                <span class="term">Actio redhibitoria</span>: Acción redhibitoria. //
+                <span class="definition">Acción que compete al comprador para resolver la compraventa por vicios ocultos
+                    de la cosa vendida. En el derecho romano, se denominaba así la acción encaminada a la resolución de
+                    la venta por vicios ocultos de la cosa vendida. La acción podría ser ejercitada durante seis meses a
+                    contar de la fecha del contrato. Representaba una integrum restitutio en la que el vendedor debía
+                    restituir el precio con los intereses y el comprador devolver la cosa con los accesorios y frutos.
+                    Es una institución que ha pasado al derecho moderno.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio sacramenti">
+                <span class="term">Actio sacramenti</span>: Acción sagrada o de juramento. //
+                <span class="definition">En esta acción, las partes hacían una apuesta, llamada sacramentum. La apuesta
+                    de la parte que perdía el proceso era destinada a las necesidades del culto. El rito de la actio
+                    sacramenti variaba según se tratase de una actio in rem o de una actio in personam.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio serviana">
+                <span class="term">Actio serviana</span>: Acción de venta. //
+                <span class="definition">La civil, personal y de buena fe con la cual el vendedor podía obtener el
+                    cumplimiento de la obligación de pagar el precio y otras cargas correspondientes al
+                    comprador.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio tutelae">
+                <span class="term">Actio tutelae</span>: Acción de tutela. //
+                <span class="definition">Acción civil de buena fe y personal derivada del ejercicio de la tutela para
+                    hacer efectivas las obligaciones nacidas de ésta, se ejercita por el pupilo o sus herederos contra
+                    el tutor para lograr la devolución por los daños y perjuicios sufridos por su gestión, así como la
+                    devolución de los bienes adquiridos por cuenta del pupilo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio venditi">
+                <span class="term">Actio venditi</span>: Acción de venta. //
+                <span class="definition">La civil, personal y de buena fe con la cual el vendedor podía obtener el
+                    cumplimiento de la obligación de pagar el precio y otras cargas correspondientes al
+                    comprador.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio vi bonorum raptorum">
+                <span class="term">Actio vi bonorum raptorum</span>: Acción por robo con violencia. //
+                <span class="definition">Acción que se da contra quien cometió hurto o robo con violencia y en favor de
+                    quien sufrió tal hurto o robo, a fin de que pueda conseguir una indemnización de hasta cuatro veces
+                    el valor de lo robado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actio">
+                <span class="term">Actio</span>: Acción. //
+                <span class="definition">Palabra latina que designa el movimiento o el resultado de llevar a cabo algo.
+                    1. En sentido amplio, movimiento corporal voluntario que causa un resultado distinto del propio
+                    acto, o sea, acción positiva más relación de causalidad más resultado. 2. En sentido restrictivo,
+                    movimiento corporal, obrar activo o acto positivo, dependiente de la voluntad humana. 3. En sentido
+                    estricto pero comprensivo de las dos formas de comportamiento humano, manifestación de voluntad
+                    humana al exterior, consistente en un movimiento o en pasividad o inmovilidad corporal dependiente
+                    de la voluntad consciente, o sea, obrar activo o pasivo; y que es indiferente si causa o no un
+                    resultado. 4. Relativo al Derecho Humano que todo sujeto de derecho tiene para acudir ante las
+                    autoridades competentes para obtener la protección de sus derechos. 5. Reclamación que se deduce
+                    puede responder por delito doloso o imprudente, porque el resultado final lesivo se puede vincular
+                    en relación causal y de imputación objetiva a la dolosa o imprudente acción provocadora. Su
+                    aplicación es indudable en los delitos puros de resultado, pero es problemática en los delitos de
+                    mera actividad y en los delitos de resultado pero con modalidades limitadas de acción.</span>
+            </div>
+
+            <div class="glossary-item" data-term="actus reus">
+                <span class="term">Actus reus</span>: Acto culpable. //
+                <span class="definition">Junto con la mens rea, parte que acredita responsabilidad penal en el sistema
+                    jurídico anglosajón.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad beneplacitum nostrum">
+                <span class="term">Ad beneplacitum nostrum</span>: Según nuestro beneplácito. //
+                <span class="definition">En el Derecho Canónico, dicho de una cláusula empleada en la concesión de una
+                    gracia cuya vigencia depende de la voluntad favorable de la autoridad concedente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad causam">
+                <span class="term">Ad causam</span>: A efectos del concreto proceso. //
+                <span class="definition">Se aplica a la capacidad procesal o legitimación para actuar en un determinado
+                    proceso, como concepto distinto de la legitimación ad processum, tradicionalmente referida a la
+                    capacidad procesal coincidente con la capacidad de obrar en general.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad cautelam">
+                <span class="term">Ad cautelam</span>: A cautela o preventivamente. //
+                <span class="definition">Declaración oral o escrita por la que se hace una determinada reserva en
+                    previsión de una eventual razón contraria. En derecho sucesorio, garantía y prevención de no
+                    revocación de un testamento si el posterior revocatorio no contiene ciertas palabras, signos o
+                    títulos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad coelum">
+                <span class="term">Ad coelum</span>: Hacia el cielo. //
+                <span class="definition">Es el principio que el propietario de un bien inmueble también es propietario
+                    del aire y del suelo debajo del inmueble. Es una abreviación de la frase Cuius est solum eius est
+                    usque ad coelum et ad infernos que se puede traducir como “quien es dueño del suelo también lo es
+                    hacia el cielo como hacia el infierno”.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad corpus">
+                <span class="term">Ad corpus</span>: Al cuerpo. //
+                <span class="definition">Cláusula en los contratos de compraventa en la cual se calcula el precio en
+                    forma alzada, en función de la individualidad misma de la cosa tomada en conjunto, sin referencia a
+                    una cierta unidad de medida.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad effectum videndi">
+                <span class="term">Ad effectum videndi</span>: Al efecto de ser visto. //
+                <span class="definition">En el ámbito judicial, se utiliza para pedir, desde algún despacho, un
+                    expediente o documento, con el fin de que la autoridad respectiva lo asuma como elemento de
+                    convicción para resolver acerca de algo que se pide.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad extra">
+                <span class="term">Ad extra</span>: Hacia afuera. //
+                <span class="definition">Una norma produce efectos ad extra cuando deben cumplirla terceros ajenos a la
+                    entidad que la adopta.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad hoc">
+                <span class="term">Ad hoc</span>: Para eso. //
+                <span class="definition">Para ese caso o a ese efecto. Generalmente en el derecho procesal del sistema
+                    consuetudinario anglosajón, significa la solución diseñada para un problema o tarea en específico
+                    que no pretende ser generalizada o ser empleada en otras circunstancias o con otros
+                    propósitos.</span>
+            </div>
+
+
+            <div class="glossary-item" data-term="ad hominem">
+                <span class="term">Ad hominem</span>: Hacia el hombre. //
+                <span class="definition">Argumento que va dirigido contra la persona y no contra sus tesis.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ad honorem">
+                <span class="term">Ad honorem</span>: Por honor. //
+                <span class="definition">Dicho de un cargo u ocupación meramente honorífica. // Dicho de una persona que
+                    trabaja sin retribución alguna, por solo la honra.</span>
+            </div>
+
+            <div class="glossary-item" data-term="addictio in diem">
+                <span class="term">Addictio in diem</span>: Adición en día. //
+                <span class="definition">Es un acuerdo entre el comprador y vendedor por el cual, se proporciona a éste
+                    último el derecho de declarar la anulación de la venta si, dentro de un período determinado de
+                    tiempo, él ha recibido una oferta de un precio mayor para el objeto vendido. En esos casos, el
+                    primer comprador tiene la posibilidad de incrementar la oferta, y mantener la cosa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="adfiliatio">
+                <span class="term">Adfiliatio</span>: Adopción. //
+                <span class="definition">La filiación adoptiva.</span>
+            </div>
+
+            <div class="glossary-item" data-term="adiudicatio">
+                <span class="term">Adiudicatio</span>: Adjudicación. //
+                <span class="definition">Parte principal de las fórmulas de las acciones divisorias, con las que se
+                    inserta la autorización conferida al juez por el magistrado para que puedan proceder a efectuar
+                    asignaciones de propiedad entre las partes que intervienen en el proceso. // La adjudicación o
+                    atribución de la propiedad a una persona efectuada por el juez en virtud de la autorización que se
+                    le confiere, constituyendo uno de los modos de adquirir la propiedad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="adsertor libertatis">
+                <span class="term">Adsertor libertatis</span>: //
+                <span class="definition">Cuando una persona interviene en nombre de un esclavo para pedir su
+                    libertad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="aequitas">
+                <span class="term">Aequitas</span>: Equidad. //
+                <span class="definition">Categoría formada por la jurisprudencia romana sobre la distinción ius
+                    strictum-ius aequum, que permitía en ocasiones flexibilizar la aplicación de la ley y, en nombre de
+                    la equitas, incluso desplazar la legalidad vigente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="aes">
+                <span class="term">Aes</span>: Bronce.
+            </div>
+
+            <div class="glossary-item" data-term="affectio maritalis">
+                <span class="term">Affectio maritalis</span>: //
+                <span class="definition">Convivencia del hombre y de la mujer, que consiste en la intención de los
+                    contrayentes de considerarse recíprocamente como marido y mujer.</span>
+            </div>
+
+            <div class="glossary-item" data-term="affectio societatis">
+                <span class="term">Affectio societatis</span>: //
+                <span class="definition">Intención de constituir una sociedad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="agere">
+                <span class="term">Agere</span>: //
+                <span class="definition">Función del jurisconsulto que consistía en asistir a las partes durante el
+                    litigio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="alluvio">
+                <span class="term">Alluvio</span>: Aluvión. //
+                <span class="definition">Consiste en el incremento constante e imperceptible en los fundos ribereños por
+                    el movimiento del agua.</span>
+            </div>
+
+            <div class="glossary-item" data-term="animus donandi">
+                <span class="term">Animus donandi</span>: //
+                <span class="definition">Que el donante tuviera realmente la intención de realizar un acto de
+                    liberalidad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="animus possidendi">
+                <span class="term">Animus possidendi</span>: Ánimo de poseer. //
+                <span class="definition">Consiste en la intención o voluntad del sujeto de poseer la cosa, reteniéndola
+                    para sí, con exclusión de los demás.</span>
+            </div>
+
+            <div class="glossary-item" data-term="apud iudicem">
+                <span class="term">Apud iudicem</span>: //
+                <span class="definition">Facultad que para ello le atribuía el magistrado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="avulsio">
+                <span class="term">Avulsio</span>: Avulsión. //
+                <span class="definition">Desplazamiento por efecto brusco de la corriente de una parte considerable y
+                    reconocible de un campo ribereño con proyección sobre el fondo inferior y sobre la orilla
+                    opuesta.</span>
+            </div>
+
+            <div class="glossary-item" data-term="beneficium abstinendi">
+                <span class="term">Beneficium abstinendi</span>: Derecho de abstención. //
+                <span class="definition">Facultad reconocida en el edicto pretorio a los herederos necesarios o
+                    forzosos, en cuya virtud absteniéndose, esto es, no habiendo intervenido en la herencia que les ha
+                    sido deferida, no son responsables por la misma frente a los acreedores del difunto, con lo que su
+                    situación se equipara a la de los herederos voluntarios.</span>
+            </div>
+
+            <div class="glossary-item" data-term="beneficium cedendarum actionum">
+                <span class="term">Beneficium cedendarum actionum</span>: //
+                <span class="definition">Beneficio de cesión de acciones.</span>
+            </div>
+
+            <div class="glossary-item" data-term="bona vacantia">
+                <span class="term">Bona vacantia</span>: //
+                <span class="definition">Bienes vacantes, es decir, aquellos que quedaban sin titular porque la sucesión
+                    no hubiera sido aceptada por ninguno de los herederos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="bonorum possessio contra tabulas">
+                <span class="term">Bonorum possessio contra tabulas</span>: //
+                <span class="definition">Posesión de los bienes concedida por el magistrado en contra de las
+                    disposiciones testamentarias del de cuius, principalmente en favor de los hijos preferidos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="bonorum possessio">
+                <span class="term">Bonorum possessio</span>: //
+                <span class="definition">Posesión de los bienes concedidos por el magistrado a una persona
+                    determinada.</span>
+            </div>
+
+            <div class="glossary-item" data-term="bonorum venditio">
+                <span class="term">Bonorum venditio</span>: //
+                <span class="definition">Teniendo la herencia muchas deudas, hubiera que vender el patrimonio
+                    hereditario para poder satisfacerlas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="capitis deminutio">
+                <span class="term">Capitis deminutio</span>: Pérdida de Estado o Capitis disminución. //
+                <span class="definition">Extinción de la personalidad civil por causas diversas que suponen la pérdida
+                    de los derechos derivados de la caput.</span>
+            </div>
+
+            <div class="glossary-item" data-term="caput et fundamentum">
+                <span class="term">Caput et fundamentum</span>: //
+                <span class="definition">Palabras utilizadas en ocasiones para expresar el principio y fundamento de una
+                    institución cualquiera.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cavere">
+                <span class="term">Cavere</span>: //
+                <span class="definition">Función del jurisconsulto que consistía en dar consultas verbales sobre casos
+                    prácticos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cessio ad potentiorem">
+                <span class="term">Cessio ad potentiorem</span>: //
+                <span class="definition">Que por su poder o por su posición social, pudiese causar mayores perjuicios al
+                    debitor cessus.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cessus">
+                <span class="term">Cessus</span>: Cedido. //
+                <span class="definition">El deudor.</span>
+            </div>
+
+            <div class="glossary-item" data-term="clam">
+                <span class="term">Clam</span>: //
+                <span class="definition">Posesión adquirida clandestinamente, a escondidas, fuertemente en
+                    secreto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="codicilli">
+                <span class="term">Codicilli</span>: //
+                <span class="definition">Término con el cual se designaba a las tablas de cera que se utilizaban para
+                    una escritura preciada. // Disposición de la última voluntad hecha antes o después de testamento y
+                    con menos solemnidad que este, bien para instrucciones necesarias o con el objeto de añadir, quitar
+                    o aclarar algo con respecto a qué documento o anularlo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="coemptio">
+                <span class="term">Coemptio</span>: //
+                <span class="definition">Forma de celebración del matrimonio, por la que la mujer pasaba a pertenecer a
+                    la familia agnática del marido, quedando bajo las manos de este, de modo que sufrían una capitis
+                    diminutio con motivo de una alteración en sus status familiae.</span>
+            </div>
+
+            <div class="glossary-item" data-term="coercitio">
+                <span class="term">Coercitio</span>: //
+                <span class="definition">Facultad de determinados magistrados romanos cum imperium de imponer penas, …
+                    bienes e imponer arrestos o castigos de carácter disciplinario.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cognatio servilis">
+                <span class="term">Cognatio servilis</span>: //
+                <span class="definition">Los hijos nacidos de la unión entre un libre y un esclavo seguían la condición
+                    de la madre, no reconociéndose ningún parentesco de carácter agnático, sino únicamente de este
+                    parentesco natural.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cognitor">
+                <span class="term">Cognitor</span>: //
+                <span class="definition">Representante procesal de una de las partes de litigio para una causa concreta
+                    y que representaba a las personas mayores de sesenta años o enfermas que no podían litigar por sí
+                    mismas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="collatio bonorum">
+                <span class="term">Collatio bonorum</span>: //
+                <span class="definition">Colación de bienes debida por los emancipados.</span>
+            </div>
+
+            <div class="glossary-item" data-term="comitium">
+                <span class="term">Comitium</span>: //
+                <span class="definition">Comicios, lugar en el que se celebraban los comicios por curias y se
+                    administraba justicia por cónsules.</span>
+            </div>
+
+            <div class="glossary-item" data-term="concilia plebis">
+                <span class="term">Concilia plebis</span>: //
+                <span class="definition">Asamblea de la plebe.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condemnatio">
+                <span class="term">Condemnatio</span>: //
+                <span class="definition">Orden que se da al juez, de absolver o condenar al reo, entregándole facultades
+                    más o menos amplias al efecto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio causa data causa non secuta">
+                <span class="term">Condictio causa data causa non secuta</span>: //
+                <span class="definition">Esta acción personal que ha llevado a cabo una datio para obtener una partición
+                    equivalente, a fin de que pueda repetir en devolución de lo entregado en razón de no haber tenido
+                    lugar la prestación que se esperaba.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio indebiti soluti">
+                <span class="term">Condictio indebiti soluti</span>: //
+                <span class="definition">Esta acción se concedía a la persona que había entregado algo a otra pensando
+                    que lo debía (pago de lo indebido), en el caso, por ejemplo, de que pagara cuando la obligación ya
+                    se hubiera cumplido, como si otro hubiera pagado en su nombre, sin su conocimiento.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio ob turpem causam">
+                <span class="term">Condictio ob turpem causam</span>: //
+                <span class="definition">Fue la acción para exigir la devolución de algún valor entregado en vista de
+                    una causa deshonrosa para quien lo recibió.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio sine causa">
+                <span class="term">Condictio sine causa</span>: //
+                <span class="definition">Esta acción se relacionaba con aquellas entregas que, aunque justificadas en el
+                    momento mismo en que se efectuaron, posteriormente dieron lugar a un enriquecimiento ilegítimo,
+                    como, por ejemplo, si se hubiera constituido dote y el matrimonio no se pudo realizar por existir un
+                    impedimento.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio triticaria">
+                <span class="term">Condictio triticaria</span>: //
+                <span class="definition">Intimación para que se entregue una cantidad de algún cereal.</span>
+            </div>
+
+            <div class="glossary-item" data-term="condictio">
+                <span class="term">Condictio</span>: Condición.
+            </div>
+
+            <div class="glossary-item" data-term="conductor">
+                <span class="term">Conductor</span>: //
+                <span class="definition">Arrendatario o inquilino.</span>
+            </div>
+
+            <div class="glossary-item" data-term="confarreatio">
+                <span class="term">Confarreatio</span>: //
+                <span class="definition">Consistía en una ceremonia de carácter religioso anexa al matrimonio,
+                    celebrándose siempre con grandes solemnidades y ante testigos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="confusión y conmixtión">
+                <span class="term">Confusión y conmixtión</span>: //
+                <span class="definition">Se entiende por una y otra, respectivamente, la mezcla de líquidos o de
+                    sólidos. Si la separación es posible, cada propietario conserva la propiedad de su objeto; si no lo
+                    fuera, surge una copropiedad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="consensu">
+                <span class="term">Consensu</span>: //
+                <span class="definition">Consensuales.</span>
+            </div>
+
+            <div class="glossary-item" data-term="consensu">
+                <span class="term">Consensu</span>: //
+                <span class="definition">Consentimiento.</span>
+            </div>
+
+            <div class="glossary-item" data-term="constitutum">
+                <span class="term">Constitutum</span>: //
+                <span class="definition">Pacto que servía para formalizar una prórroga de un contrato existente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="contrato estimatario">
+                <span class="term">Contrato estimatario</span>: //
+                <span class="definition">Aestimatum.</span>
+            </div>
+
+            <div class="glossary-item" data-term="contrato intuitu personae">
+                <span class="term">Contrato intuitu personae</span>: //
+                <span class="definition">Contrato consensual como en el caso de la sociedad y del mandato.</span>
+            </div>
+
+            <div class="glossary-item" data-term="contrato intuitu rei">
+                <span class="term">Contrato intuitu rei</span>: //
+                <span class="definition">Contrato consensual parecido a la compraventa y del arrendamiento; o bien sobre
+                    las cualidades de la persona que realiza la actividad en el negocio jurídico.</span>
+            </div>
+
+            <div class="glossary-item" data-term="contrato nomina transcriptitia">
+                <span class="term">Contrato nomina transcriptitia</span>: //
+                <span class="definition">Son los contratos más antiguos y eran aquellos que se consignaban en los libros
+                    de contabilidad del acreedor.</span>
+            </div>
+
+            <div class="glossary-item" data-term="conventio in manum">
+                <span class="term">Conventio in manum</span>: //
+                <span class="definition">Es el cambio de status por el cual, dadas ciertas condiciones, la mujer al
+                    casarse con un pater familias o un filius familias queda sujeta al poder jurídico.</span>
+            </div>
+
+            <div class="glossary-item" data-term="corpus">
+                <span class="term">Corpus</span>: //
+                <span class="definition">Cuerpo (es precisamente el control o poder físico que la persona ejerce sobre
+                    la cosa).</span>
+            </div>
+
+            <div class="glossary-item" data-term="cretio">
+                <span class="term">Cretio</span>: //
+                <span class="definition">Cuando el testador exigía una aceptación formal e incluso establecía el plazo
+                    para realizarla.</span>
+            </div>
+
+            <div class="glossary-item" data-term="crimina">
+                <span class="term">Crimina</span>: //
+                <span class="definition">Delitos de derecho público, para los que existía un procedimiento penal
+                    distinto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="culpa lata">
+                <span class="term">Culpa lata</span>: //
+                <span class="definition">Culpa grave o excesiva negligencia.</span>
+            </div>
+
+            <div class="glossary-item" data-term="culpa levis abstracto">
+                <span class="term">Culpa levis abstracto</span>: //
+                <span class="definition">La culpa leve en abstracto se presentaba cuando el deudor no hubiera observado
+                    los cuidados de un buen padre de familia.</span>
+            </div>
+
+            <div class="glossary-item" data-term="culpa levis">
+                <span class="term">Culpa levis</span>: //
+                <span class="definition">Que es menos grave y que a su vez podía ser in abstracto o in concreto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cum manu">
+                <span class="term">Cum manu</span>: //
+                <span class="definition">Necesidad de que la mujer se someta a la manus del marido o de su paterfamilias
+                    si era alieni iuris.</span>
+            </div>
+
+            <div class="glossary-item" data-term="cursus honorum">
+                <span class="term">Cursus honorum</span>: //
+                <span class="definition">Honor por formar parte del Senado; este era uno de los mayores honores a los
+                    que un hombre podía aspirar.</span>
+            </div>
+
+            <div class="glossary-item" data-term="damnum iniuria datum">
+                <span class="term">Damnum iniuria datum</span>: //
+                <span class="definition">Daño en propiedad ajena.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dare">
+                <span class="term">Dare</span>: //
+                <span class="definition">Se utiliza para referirse a la transmisión de dominio de alguna cosa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="datio in solutum">
+                <span class="term">Datio in solutum</span>: //
+                <span class="definition">El acto en que el deudor da voluntariamente en pago una prestación distinta a
+                    la debida al acreedor propio, que consiente en recibirla en sustitución a la otra que le habría
+                    correspondido.</span>
+            </div>
+
+            <div class="glossary-item" data-term="debitum">
+                <span class="term">Debitum</span>: //
+                <span class="definition">Deuda.</span>
+            </div>
+
+            <div class="glossary-item" data-term="decemviri">
+                <span class="term">Decemviri</span>: //
+                <span class="definition">Conocía de las causas de libertad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="decreta">
+                <span class="term">Decreta</span>: //
+                <span class="definition">Clase de constitución imperial en la cual las decisiones judiciales tomadas por
+                    el emperador eran supremas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="delicta">
+                <span class="term">Delicta</span>: //
+                <span class="definition">Delitos privados.</span>
+            </div>
+
+            <div class="glossary-item" data-term="denuntiatio">
+                <span class="term">Denuntiatio</span>: //
+                <span class="definition">Notificación que el cesionario debía hacer al deudor, en el sentido de que
+                    había adquirido el crédito.</span>
+            </div>
+
+            <div class="glossary-item" data-term="detestatio sacrorum">
+                <span class="term">Detestatio sacrorum</span>: //
+                <span class="definition">Si la votación era afirmativa, el adrogado renunciaba solemnemente a su culto
+                    privado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dictio dotis">
+                <span class="term">Dictio dotis</span>: //
+                <span class="definition">Promesa que efectúa un paterfamilias respecto de la dote que le entregará a su
+                    hija en el momento en que ésta contraiga matrimonio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dies cedens">
+                <span class="term">Dies cedens</span>: //
+                <span class="definition">Que coincidía con la delación y otorgaba al legatario un derecho
+                    condicionado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dies veniens">
+                <span class="term">Dies veniens</span>: //
+                <span class="definition">Cuando el legatario adquiría el legado, al cumplirse la condición, que era
+                    precisamente la aceptación de la herencia por parte del heredero.</span>
+            </div>
+
+            <div class="glossary-item" data-term="diffarreatio">
+                <span class="term">Diffarreatio</span>: //
+                <span class="definition">Llevarse a cabo otra ceremonia con igual solemnidad y ante testigos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="digesto">
+                <span class="term">Digesto</span>: //
+                <span class="definition">Distribuir u ordenar.</span>
+            </div>
+
+            <div class="glossary-item" data-term="divortio bona gratia">
+                <span class="term">Divortio bona gratia</span>: //
+                <span class="definition">Divorcio o disolución del matrimonio por voluntad de uno o ambos cónyuges sin
+                    que exista falta entre ellos.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dominium ex iure quiritium">
+                <span class="term">Dominium ex iure quiritium</span>: //
+                <span class="definition">Propiedad quiritaria.</span>
+            </div>
+
+            <div class="glossary-item" data-term="dominium">
+                <span class="term">Dominium</span>: //
+                <span class="definition">Poder que alguien tiene de usar y disponer de lo suyo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="donatio propter nuptias">
+                <span class="term">Donatio propter nuptias</span>: //
+                <span class="definition">También conocida como donatio ante nuptias, antes de Justiniano, estaba
+                    compuesta por los bienes que el futuro marido regalaba a la mujer antes de casarse (en el Derecho
+                    prejustinianeo) o incluso durante el matrimonio (en Derecho justinianeo).</span>
+            </div>
+
+            <div class="glossary-item" data-term="edicta">
+                <span class="term">Edicta</span>: //
+                <span class="definition">Clase de constitución imperial en la cual las disposiciones son comunicaciones
+                    efectuadas de forma directa al pueblo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="emblemata triboniani">
+                <span class="term">Emblemata triboniani</span>: //
+                <span class="definition">Adaptaciones y modificaciones de las obras clásicas a las necesidades del
+                    derecho vigente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="emptio rei speratae">
+                <span class="term">Emptio rei speratae</span>: //
+                <span class="definition">La compra de una cosa esperada.</span>
+            </div>
+
+            <div class="glossary-item" data-term="emptio spei">
+                <span class="term">Emptio spei</span>: //
+                <span class="definition">La compra de esperanza.</span>
+            </div>
+
+            <div class="glossary-item" data-term="emptio venditio">
+                <span class="term">Emptio venditio</span>: //
+                <span class="definition">Compraventa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ex actione">
+                <span class="term">Ex actione</span>: //
+                <span class="definition">Disolución de la sociedad por la acción.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ex die">
+                <span class="term">Ex die</span>: //
+                <span class="definition">A partir de determinada fecha.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ex personis">
+                <span class="term">Ex personis</span>: //
+                <span class="definition">Sociedad se disuelve por las personas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ex rebus">
+                <span class="term">Ex rebus</span>: //
+                <span class="definition">Disolución de la sociedad por las cosas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ex voluntate">
+                <span class="term">Ex voluntate</span>: //
+                <span class="definition">Disolución de la sociedad por la voluntad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="exceptio doli">
+                <span class="term">Exceptio doli</span>: //
+                <span class="definition">Remedio ofrecido por el pretor con el fin de imposibilitar el progreso de una
+                    acción que tuviera su fundamento en un proceder doloso, ya fuera este coetáneo o sobreviniente a la
+                    relación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="exceptio metus">
+                <span class="term">Exceptio metus</span>: //
+                <span class="definition">Alegación de hecho o de derecho que puede oponer el demandado por una acción
+                    derivada del acto viciado por el miedo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="exceptio rei venditae et traditae">
+                <span class="term">Exceptio rei venditae et traditae</span>: //
+                <span class="definition">Excepción al adquiriente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="exheredatio">
+                <span class="term">Exheredatio</span>: //
+                <span class="definition">Desheredación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="facere">
+                <span class="term">Facere</span>: //
+                <span class="definition">Se refiere a toda conducta que consista en un acto positivo, un hacer, y que no
+                    implique la transmisión de dominio de alguna cosa. Facultad de administrar justicia.</span>
+            </div>
+
+            <div class="glossary-item" data-term="familiae emptor">
+                <span class="term">Familiae emptor</span>: //
+                <span class="definition">Comprador del patrimonio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fase in iure">
+                <span class="term">Fase in iure</span>: //
+                <span class="definition">Etapa procesal en que el magistrado organiza el juicio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="favor testamenti">
+                <span class="term">Favor testamenti</span>: //
+                <span class="definition">La sucesión testamentaria prevaleció siempre sobre la legítima, y la doctrina
+                    aconsejó siempre la interpretación favorable de la voluntad del testador en caso de duda acerca de
+                    las disposiciones testamentarias, para no restarle validez al testamento.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ferruminatio">
+                <span class="term">Ferruminatio</span>: //
+                <span class="definition">Que es la soldadura de dos objetos del mismo metal.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fideiusso">
+                <span class="term">Fideiusso</span>: //
+                <span class="definition">Fianza.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fidepromissio">
+                <span class="term">Fidepromissio</span>: //
+                <span class="definition">En derecho romano, una de las tres especies de la adpromissio, o garantía del
+                    cumplimiento de las obligaciones contractuales.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fidepromittere">
+                <span class="term">Fidepromittere</span>: //
+                <span class="definition">Una de las tres especies de la adpromissio, o garantía del cumplimiento de las
+                    obligaciones contractuales.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fides">
+                <span class="term">Fides</span>: //
+                <span class="definition">Existe la buena fe cuando el poseedor cree tener derecho a la posesión; solo el
+                    poseedor de buena fe puede convertirse en propietario por usucapión; en el derecho romano, el ladrón
+                    no podía usucapir.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fiducia">
+                <span class="term">Fiducia</span>: //
+                <span class="definition">Convenio de fidelidad.</span>
+            </div>
+
+            <div class="glossary-item" data-term="filiifamilias">
+                <span class="term">Filiifamilias</span>: //
+                <span class="definition">Aquellos que se hallan sujetos a la autoridad del pater.</span>
+            </div>
+
+            <div class="glossary-item" data-term="foenus nauticum">
+                <span class="term">Foenus nauticum</span>: //
+                <span class="definition">Constituye el antecedente del préstamo a la gruesa, cuidadosamente reglamentado
+                    en los códigos del siglo XIX.</span>
+            </div>
+
+            <div class="glossary-item" data-term="matrimonio cum manu">
+                <span class="term">Matrimonio cum manu</span>: //
+                <span class="definition">Forma de celebración del matrimonio, por la que la mujer pasaba a pertenecer a
+                    la familia agnaticia del marido quedando bajo la manos de este, de modo que sufría una capitis
+                    diminutio mínima con motivo de una alteración en su status familiae.</span>
+            </div>
+
+            <div class="glossary-item" data-term="fraus legis">
+                <span class="term">Fraus legis</span>: //
+                <span class="definition">Fraude a la ley.</span>
+            </div>
+
+            <div class="glossary-item" data-term="furtum manifestum">
+                <span class="term">Furtum manifestum</span>: //
+                <span class="definition">Delito flagrante.</span>
+            </div>
+
+            <div class="glossary-item" data-term="furtum">
+                <span class="term">Furtum</span>: //
+                <span class="definition">Robo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="gens">
+                <span class="term">Gens</span>: //
+                <span class="definition">Agrupación de carácter aristocrático.</span>
+            </div>
+
+            <div class="glossary-item" data-term="heredes sui">
+                <span class="term">Heredes sui</span>: //
+                <span class="definition">Descendentes legítimos, que estuvieran bajo la patria potestad al momento de su
+                    muerte.</span>
+            </div>
+
+            <div class="glossary-item" data-term="heredes sui">
+                <span class="term">Heredes sui</span>: //
+                <span class="definition">Descendientes del de cuius, que estuvieran bajo su potestad al momento de su
+                    muerte.</span>
+            </div>
+
+            <div class="glossary-item" data-term="hereditas damnosa">
+                <span class="term">Hereditas damnosa</span>: //
+                <span class="definition">Herencia cargada de deudas.</span>
+            </div>
+
+            <div class="glossary-item" data-term="hereditas iacens">
+                <span class="term">Hereditas iacens</span>: //
+                <span class="definition">Herencia yacente.</span>
+            </div>
+
+            <div class="glossary-item" data-term="hereditas">
+                <span class="term">Hereditas</span>: //
+                <span class="definition">Herencia (sinónimo de sucesión).</span>
+            </div>
+
+            <div class="glossary-item" data-term="heres ex re certa">
+                <span class="term">Heres ex re certa</span>: //
+                <span class="definition">Heredero con un objeto determinado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="honor matrimonii">
+                <span class="term">Honor matrimonii</span>: //
+                <span class="definition">Es el trato que los esposos se dispensan en público, especialmente el que el
+                    marido da a la mujer, quien debe compartir su rango social y gozar de la dignidad de esposa.</span>
+            </div>
+
+            <div class="glossary-item" data-term="idus">
+                <span class="term">Idus</span>: //
+                <span class="definition">Día 13 de ocho de los doce meses: enero, febrero, abril, junio, agosto,
+                    septiembre, noviembre y diciembre; y día 15 de los cuatro restantes meses: marzo, mayo, julio y
+                    octubre.</span>
+            </div>
+
+            <div class="glossary-item" data-term="imperium">
+                <span class="term">Imperium</span>: //
+                <span class="definition">Facultad discrecional de mando.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in commercium">
+                <span class="term">In commercium</span>: //
+                <span class="definition">Cosas comerciables.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in diem">
+                <span class="term">In diem</span>: //
+                <span class="definition">Hasta esa determinada fecha.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in integrum restitutio">
+                <span class="term">In integrum restitutio</span>: //
+                <span class="definition">Institución del derecho procesal que permite a personas incapaces tutelar sus
+                    derechos restableciendo el estado o la posición jurídica anterior.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in iure cessio">
+                <span class="term">In iure cessio</span>: //
+                <span class="definition">Asignación judicial.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in iure">
+                <span class="term">In iure</span>: //
+                <span class="definition">Reconocimiento jurídico.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in manu">
+                <span class="term">In manu</span>: //
+                <span class="definition">Estar sometido a alguien.</span>
+            </div>
+
+            <div class="glossary-item" data-term="in procinctu">
+                <span class="term">In procinctu</span>: //
+                <span class="definition">Testamento realizado en tiempo de guerra, frente al ejército.</span>
+            </div>
+
+            <div class="glossary-item" data-term="inaedificatio">
+                <span class="term">Inaedificatio</span>: //
+                <span class="definition">Edificación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="infans">
+                <span class="term">Infans</span>: //
+                <span class="definition">Entre el nacimiento y los siete años.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iniuria">
+                <span class="term">Iniuria</span>: //
+                <span class="definition">Lesiones.</span>
+            </div>
+
+            <div class="glossary-item" data-term="intentio">
+                <span class="term">Intentio</span>: //
+                <span class="definition">Hipótesis afirmada por el actor (demandante) que, si se aprueba, dará lugar a
+                    la condena del reo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="intercessio">
+                <span class="term">Intercessio</span>: //
+                <span class="definition">El veto.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicta recuperandae possessionis">
+                <span class="term">Interdicta recuperandae possessionis</span>: //
+                <span class="definition">Interdictos que sirven para recuperar la posesión.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicto de clandestina possessione">
+                <span class="term">Interdicto de clandestina possessione</span>: //
+                <span class="definition">Interdicto contra la desposesión oculta y maliciosa de un inmueble.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicto de precario">
+                <span class="term">Interdicto de precario</span>: //
+                <span class="definition">Interdicto otorgado por el magistrado para pedir la restitución de una cosa
+                    mueble o inmueble.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicto unde vi">
+                <span class="term">Interdicto unde vi</span>: //
+                <span class="definition">Interdicto que servía en los casos de desposesión violenta de un
+                    inmueble.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicto uti possidetis">
+                <span class="term">Interdicto uti possidetis</span>: //
+                <span class="definition">Interdictos referentes a la posesión de bienes inmuebles.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdicto utrubi">
+                <span class="term">Interdicto utrubi</span>: //
+                <span class="definition">Interdictos para la conservación de bienes muebles mediante la amenaza de
+                    despojo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interdictum fraudatorium">
+                <span class="term">Interdictum fraudatorium</span>: //
+                <span class="definition">Interdicto que anula la venta y recupera la posesión de los bienes vendidos por
+                    el deudor con el ánimo de defraudar a los acreedores.</span>
+            </div>
+
+            <div class="glossary-item" data-term="interpellatio">
+                <span class="term">Interpellatio</span>: //
+                <span class="definition">Interpelación.</span>
+            </div>
+
+            <div class="glossary-item" data-term="intuitu personae">
+                <span class="term">Intuitu personae</span>: //
+                <span class="definition">Contrato que se celebra en consideración al tipo o calidad de la relación entre
+                    las personas que lo firman.</span>
+            </div>
+
+            <div class="glossary-item" data-term="intuitu rei">
+                <span class="term">Intuitu rei</span>: //
+                <span class="definition">Clasificación de la compraventa y locatio conductio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="ipso iure">
+                <span class="term">Ipso iure</span>: //
+                <span class="definition">Pueden alegarse en cualquier momento del juicio y extinguen la obligación de
+                    forma automática y de pleno derecho.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iudicatio">
+                <span class="term">Iudicatio</span>: //
+                <span class="definition">Facultad que le atribuía el magistrado.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iudicium">
+                <span class="term">Iudicium</span>: //
+                <span class="definition">Señalar a la pretensión del litigante que iniciaba el proceso o juicio.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iura in re aliena">
+                <span class="term">Iura in re aliena</span>: //
+                <span class="definition">Derechos reales sobre una cosa que pertenece a otro.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iuris possessio">
+                <span class="term">Iuris possessio</span>: //
+                <span class="definition">Posesión de derechos o cuasiposesión.</span>
+            </div>
+
+            <div class="glossary-item" data-term="iurisdictio">
+                <span class="term">Iurisdictio</span>: //
+                <span class="definition">Otorgar o denegar la acción, fijar los términos del proceso y pasar el caso al
+                    juez.</span>
+            </div>
+
+
+            <div class="glossary-item" data-term="iurisprudentia">
+                <span class="term">Iurisprudentia</span>: //
+                <span class="definition">Jurisprudencia.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-abutendi">
+                <span class="term">Ius abutendi</span>: //
+                <span class="definition">Derecho de disponer del objeto.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-adcrescendi">
+                <span class="term">Ius adcrescendi</span>: //
+                <span class="definition">Acrecimiento.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-agendi-cum-populo">
+                <span class="term">Ius agendi cum populo o cum senatu</span>: //
+                <span class="definition">Derecho de convocar y presidir a las asambleas cívicas o al senado.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-civile">
+                <span class="term">Ius civile</span>: //
+                <span class="definition">Derecho propio de los ciudadanos romanos.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-flavianum">
+                <span class="term">Ius flavianum</span>: //
+                <span class="definition">Formulas procesales.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-fruendi">
+                <span class="term">Ius fruendi</span>: //
+                <span class="definition">Derecho de aprovecharlo.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-honorarium">
+                <span class="term">Ius honorarium</span>: //
+                <span class="definition">Es el derecho pretorio (Se puede definir como la facultad con la que disponía
+                    el pretor para promulgar un edicto pretorio).</span>
+            </div>
+            <div class="glossary-item" data-term="ius-in-agro-vectigali">
+                <span class="term">Ius in agro vectigali</span>: //
+                <span class="definition">El Estado daba en arrendamiento terrenos agrícolas de su propiedad a
+                    perpetuidad.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-liberorum">
+                <span class="term">Ius liberorum</span>: //
+                <span class="definition">La circunstancia de que la mujer sui iuris quede liberada de tener que ser
+                    representada por alguien, aunque con una serie de limitaciones.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-possessionis">
+                <span class="term">Ius possessionis</span>: //
+                <span class="definition">Derecho de posesión.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-possidendi">
+                <span class="term">Ius possidendi</span>: //
+                <span class="definition">Derecho a poseer.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-publice-respondendi">
+                <span class="term">Ius publice respondendi</span>: //
+                <span class="definition">Cualidad que el emperador otorgaba a los jurisconsultos para que tuvieran la
+                    fuerza de ley.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-scriptum-et-ius-non-scriptum">
+                <span class="term">Ius scrptum et ius non scriptum</span>: //
+                <span class="definition">Derecho escrito y no escrito.</span>
+            </div>
+            <div class="glossary-item" data-term="ius-utendi">
+                <span class="term">Ius utendi</span>: //
+                <span class="definition">Derecho de usar el objeto.</span>
+            </div>
+            <div class="glossary-item" data-term="ius">
+                <span class="term">Ius</span>: //
+                <span class="definition">Derecho. Conjunto de reglas que rigen las relaciones de los hombres dentro de
+                    la sociedad.</span>
+            </div>
+            <div class="glossary-item" data-term="iustae-nuptiae">
+                <span class="term">Iustae nuptiae o iustum matrimonium</span>: //
+                <span class="definition">Unión conyugal monogámica llevada a cabo de conformidad con las reglas del
+                    derecho civil romano.</span>
+            </div>
+            <div class="glossary-item" data-term="iustae-nuptiae-2">
+                <span class="term">Iustae nuptiae</span>: //
+                <span class="definition">Tipo de matrimonio legítimamente conformado.</span>
+            </div>
+            <div class="glossary-item" data-term="iustitia">
+                <span class="term">Iustitia</span>: //
+                <span class="definition">Justicia. La existencia de una excusa para seguir desempeñando el cargo
+                    encomendado, o bien por ser destituido. Las mujeres ingenuas que tuvieran tres hijos y las libertas
+                    que tuvieran cuatro fueran dispensadas de la tutela perpetua a la que estaba sometida la
+                    mujer.</span>
+            </div>
+            <div class="glossary-item" data-term="latini-veteres">
+                <span class="term">Latini veteres</span>: //
+                <span class="definition">Son los habitantes del antiguo latio.</span>
+            </div>
+            <div class="glossary-item" data-term="legado-per-vindicationem">
+                <span class="term">Legado per vindicationem</span>: //
+                <span class="definition">Legado vindicatorio.</span>
+            </div>
+            <div class="glossary-item" data-term="legado-sinendi-modo">
+                <span class="term">Legado sinendi modo</span>: //
+                <span class="definition">Se otorgaba un derecho de crédito al legatario y el heredero tenía la
+                    obligación de permitir que aquél dispusiera de la cosa legada.</span>
+            </div>
+            <div class="glossary-item" data-term="leges-datae">
+                <span class="term">Leges datae</span>: //
+                <span class="definition">Leyes emitidas por distintos magistrados.</span>
+            </div>
+            <div class="glossary-item" data-term="leges-rogatae">
+                <span class="term">Leges rogatae</span>: //
+                <span class="definition">Leyes curiadas y centuriadas.</span>
+            </div>
+            <div class="glossary-item" data-term="lex-papia-poppaea">
+                <span class="term">Lex papia poppaea</span>: //
+                <span class="definition">Prohíbe esta unión entre los hijos de senadores con libertos o con persona que
+                    ejerciese una profesión deshonrosa como, por ejemplo, el ser cómico.</span>
+            </div>
+            <div class="glossary-item" data-term="lex">
+                <span class="term">Lex</span>: //
+                <span class="definition">Ley.</span>
+            </div>
+            <div class="glossary-item" data-term="liberi">
+                <span class="term">Liberi</span>: //
+                <span class="definition">Descendientes del difunto.</span>
+            </div>
+            <div class="glossary-item" data-term="libra">
+                <span class="term">Libra</span>: //
+                <span class="definition">Balanza.</span>
+            </div>
+            <div class="glossary-item" data-term="libripens">
+                <span class="term">Libripens</span>: //
+                <span class="definition">Funcionario que tenía a su cargo el empleo de la balanza, que servía para pesar
+                    el metal que en determinados actos jurídicos, como la compra venta o la mancipatio, entregaba una de
+                    las partes a la otra en concepto de pago, y tuvo gran importancia en la época primitiva en relación
+                    con los actos en que la medida: la libra, el peso, tenían trascendencia.</span>
+            </div>
+            <div class="glossary-item" data-term="litis-contestatio">
+                <span class="term">Litis contestatio</span>: //
+                <span class="definition">Litigio.</span>
+            </div>
+            <div class="glossary-item" data-term="litteris">
+                <span class="term">Litteris</span>: //
+                <span class="definition">Escritos.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-operarum">
+                <span class="term">Locatio conductio operarum</span>: //
+                <span class="definition">Contrato de trabajo.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-operarum-2">
+                <span class="term">Locatio conductio operarum</span>: //
+                <span class="definition">Contrato en cuya virtud el conductor se obliga a la realización de una obra y a
+                    entregarla al locator, aun sin haber previamente recibido de este los materiales de la cosa a
+                    transformar.</span>
+            </div>
+
+            <div class="glossary-item" data-term="locatio-conductio-operarum">
+                <span class="term">Locatio conductio operarum</span>: //
+                <span class="definition">Esta figura corresponde al moderno contrato de trabajo y en Roma no tuvo una
+                    gran importancia.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-operis">
+                <span class="term">Locatio conductio operis</span>: //
+                <span class="definition">Contrato de obra.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-operis-2">
+                <span class="term">Locatio conductio operis</span>: //
+                <span class="definition">Equivale al contrato de obra.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-rerum">
+                <span class="term">Locatio conductio rerum</span>: //
+                <span class="definition">Arrendamiento.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-1">
+                <span class="term">Locatio conductio</span>: //
+                <span class="definition">Nos encontramos con la modalidad de que en ella el arrendamiento se transmite a
+                    los herederos y que además, las consecuencias de una mala cosecha las sufrían ambas partes.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-2">
+                <span class="term">Locatio conductio</span>: //
+                <span class="definition">Que es un contrato sinalagmático y de buena fe, por el cual una persona se
+                    compromete a proporcionarle a otra el goce temporal de una cosa no consumible, o bien a ejecutar en
+                    favor de ella un determinado trabajo mediante una retribución periódica y en dinero.</span>
+            </div>
+            <div class="glossary-item" data-term="locatio-conductio-consensual">
+                <span class="term">Locatio-conductio</span>: //
+                <span class="definition">Contrato consensual y de buena fe, en el que uno de los contratantes (locator)
+                    se obliga frente a otro (conductor); para poner a su disposición una cosa para que la use y
+                    disfrute, prestarle determinados servicios, o bien a entregarle una cosa para que sobre ella realice
+                    una determinada actividad, una obra en definitiva. La parte contratante que obtiene la ventaja que,
+                    como veremos, no es siempre el conductor, se obliga a pagar una contraprestación económica llamada
+                    canon o merces.</span>
+            </div>
+            <div class="glossary-item" data-term="locator">
+                <span class="term">Locator</span>: //
+                <span class="definition">Equivale al concepto de arrendador.</span>
+            </div>
+            <div class="glossary-item" data-term="maior-infantia">
+                <span class="term">Maior infantia</span>: //
+                <span class="definition">Régimen jurídico general del instituto de la tutela en derecho romano, que
+                    engloba desde los siete años hasta los 14 años para los varones y los 12 para las mujeres.</span>
+            </div>
+            <div class="glossary-item" data-term="mancipatio">
+                <span class="term">Mancipatio</span>: //
+                <span class="definition">Mancipación (modo de transmitir la propiedad).</span>
+            </div>
+            <div class="glossary-item" data-term="mancipi">
+                <span class="term">Mancipi</span>: //
+                <span class="definition">Propiedad.</span>
+            </div>
+            <div class="glossary-item" data-term="mancipium">
+                <span class="term">Mancipium</span>: //
+                <span class="definition">Figura del derecho civil que consiste en la autoridad que puede ejercer un
+                    hombre libre sobre otra persona también libre.</span>
+            </div>
+            <div class="glossary-item" data-term="mandata">
+                <span class="term">Mandata</span>: //
+                <span class="definition">Clase de constitución imperial la cual consistía en instrucciones dirigidas a
+                    los funcionarios o a los gobernadores de provincia.</span>
+            </div>
+            <div class="glossary-item" data-term="mandatum-post-mortem">
+                <span class="term">Mandatum post mortem</span>: //
+                <span class="definition">Mandato cuyo objeto hubiese de ejecutarse después de la muerte del mandante o
+                    del mandatario.</span>
+            </div>
+            <div class="glossary-item" data-term="manus-iniectio">
+                <span class="term">Manus iniectio</span>: //
+                <span class="definition">Toma de posesión.</span>
+            </div>
+            <div class="glossary-item" data-term="manus">
+                <span class="term">Manus</span>: //
+                <span class="definition">Es la autoridad que se tiene sobre una mujer casada, la cual es normalmente
+                    ejercida por el marido.</span>
+            </div>
+            <div class="glossary-item" data-term="mare-nostrum">
+                <span class="term">Mare nostrum</span>: //
+                <span class="definition">Mar mediterráneo.</span>
+            </div>
+            <div class="glossary-item" data-term="medio-para-asegurar-cumplimiento-obligacion">
+                <span class="term">Medio para asegurar el cumplimiento de la obligación</span>: //
+                <span class="definition">.</span>
+            </div>
+            <div class="glossary-item" data-term="mora-creditoris">
+                <span class="term">Mora creditoris</span>: //
+                <span class="definition">El acreedor incurría en mora cuando rechazaba injustificadamente la prestación
+                    ofrecida por el deudor, dentro de los términos debidos.</span>
+            </div>
+            <div class="glossary-item" data-term="mora-creditoris-2">
+                <span class="term">Mora creditoris</span>: //
+                <span class="definition">La mora del acreedor aparece cuando este rechaza injustificadamente la oferta
+                    de pago que le hace el deudor. Tiene como consecuencia eliminar la mora del deudor.</span>
+            </div>
+            <div class="glossary-item" data-term="mora-debitoris">
+                <span class="term">Mora debitoris</span>: //
+                <span class="definition">Para que el deudor incurriera en mora era necesario que el retraso le fuera
+                    imputable y que la deuda estuviera vencida.</span>
+            </div>
+            <div class="glossary-item" data-term="mores-maiorum">
+                <span class="term">Mores maiorum</span>: //
+                <span class="definition">La costumbre de los antepasados.</span>
+            </div>
+            <div class="glossary-item" data-term="mortis-causa">
+                <span class="term">Mortis causa</span>: //
+                <span class="definition">Transmisión a uno o varios herederos, de un patrimonio perteneciente a un
+                    difunto.</span>
+            </div>
+            <div class="glossary-item" data-term="nec-mancipi">
+                <span class="term">Nec mancipi</span>: //
+                <span class="definition">Cosas que no son de propiedad.</span>
+            </div>
+            <div class="glossary-item" data-term="nec-manifestum">
+                <span class="term">Nec manifestum</span>: //
+                <span class="definition">No flagrante de robo.</span>
+            </div>
+            <div class="glossary-item" data-term="negocios-per-aes-et-libram">
+                <span class="term">Negocios per aes et libram</span>: //
+                <span class="definition">Negocios jurídicos formales, que proceden de una época en la que los trozos y
+                    barras de cobre no amonedado constituían el medio usual de pago.</span>
+            </div>
+            <div class="glossary-item" data-term="nexum">
+                <span class="term">Nexum</span>: //
+                <span class="definition">Nudo o atadura. Figura en cuya virtud el acreedor recibe la posesión de una
+                    cosa del deudor en garantía de pago.</span>
+            </div>
+            <div class="glossary-item" data-term="nomina-transcriptitia">
+                <span class="term">Nomina transcriptitia</span>: //
+                <span class="definition">Son los contratos más antiguos y eran aquellos que se consignaban en los libros
+                    de contabilidad del acreedor, no siendo menester que el deudor también los transcribiese.</span>
+            </div>
+            <div class="glossary-item" data-term="nominatim">
+                <span class="term">Nominatim</span>: //
+                <span class="definition">Desheredación de un hijo debía hacerse designándolo individualmente.</span>
+            </div>
+            <div class="glossary-item" data-term="non-facere-pati">
+                <span class="term">Non facere/ pati</span>: //
+                <span class="definition">Consiste en un abstenerse de algo; es decir, no hacer o tolerar algo.</span>
+            </div>
+            <div class="glossary-item" data-term="non-petendo">
+                <span class="term">Non petendo</span>: //
+                <span class="definition">Es el acuerdo del acreedor con el deudor, en cuanto a que aquel no exigirá la
+                    deuda a este último.</span>
+            </div>
+            <div class="glossary-item" data-term="nuncupativo">
+                <span class="term">Nuncupativo</span>: //
+                <span class="definition">Era un testamento oral que se otorgaba frente a siete testigos, que debían oír
+                    la voluntad del testador.</span>
+            </div>
+            <div class="glossary-item" data-term="obligatio">
+                <span class="term">Obligatio</span>: //
+                <span class="definition">Efecto obligatorio.</span>
+            </div>
+            <div class="glossary-item" data-term="obligationes-propter-rem">
+                <span class="term">Obligationes propter rem</span>: //
+                <span class="definition">Obligaciones ambulatorias sobre la cosa.</span>
+            </div>
+            <div class="glossary-item" data-term="ope-exceptionis">
+                <span class="term">Ope exceptionis</span>: //
+                <span class="definition">Tenían eficacia si se intercalaban como excepción en la fórmula.</span>
+            </div>
+            <div class="glossary-item" data-term="operae-servorum">
+                <span class="term">Operae servorum</span>: //
+                <span class="definition">Servicios por parte de esclavos (por este derecho una persona se podía
+                    beneficiar de los servicios de un esclavo ajeno, bien fuese de forma directa o bien alquilándolo a
+                    su vez).</span>
+            </div>
+            <div class="glossary-item" data-term="operarum">
+                <span class="term">Operarum</span>: //
+                <span class="definition">Si una aportación estaba representada por el trabajo o actividad de los
+                    socios.</span>
+            </div>
+            <div class="glossary-item" data-term="oratio-principis">
+                <span class="term">Oratio principis</span>: //
+                <span class="definition">Propuesta o discurso que el príncipe daba después de que el senado emitía una
+                    petición.</span>
+            </div>
+            <div class="glossary-item" data-term="pactum-commissorium">
+                <span class="term">Pactum commissorium</span>: //
+                <span class="definition">Es aquel mediante el cual quedan en suspenso los efectos del contrato hasta que
+                    se pague totalmente el precio establecido en el mismo.</span>
+            </div>
+            <div class="glossary-item" data-term="pactum-de-retroemendo">
+                <span class="term">Pactum de retroemendo</span>: //
+                <span class="definition">Mediante este pacto se permite al vendedor reservarse el derecho de volver a
+                    comprar el objeto en un plazo determinado, y siempre y cuando se den determinadas condiciones
+                    preestablecidas.</span>
+            </div>
+            <div class="glossary-item" data-term="pactum-de-retrovendendo">
+                <span class="term">Pactum de retrovendendo</span>: //
+                <span class="definition">Concede la facultad al comprador de volver a vender el objeto al
+                    vendedor.</span>
+            </div>
+
+            <div class="glossary-item" data-term="pactum-displicentiae">
+                <span class="term">Pactum displicentiae</span>: //
+                <span class="definition">En él el comprador podía rescindir la compraventa dentro de un plazo
+                    determinado si el objeto no le satisfacía por alguna justa causa.</span>
+            </div>
+            <div class="glossary-item" data-term="paterfamilias">
+                <span class="term">Paterfamilias</span>: //
+                <span class="definition">Persona que no estaba sometida a potestad alguna, o como decían las fuentes del
+                    derecho romano, “el que tiene el dominio en la casa”. Asimismo, lo anterior indicaba una situación
+                    de independencia jurídica, una ausencia de sumisión a potestad.</span>
+            </div>
+            <div class="glossary-item" data-term="pendentes">
+                <span class="term">Pendentes</span>: //
+                <span class="definition">Frutos no separados de la cosa principal y pertenecen al dueño de la
+                    misma.</span>
+            </div>
+            <div class="glossary-item" data-term="per-aes-et-libram">
+                <span class="term">Per aes et libram</span>: //
+                <span class="definition">Testamento mancipatorio (consistía en que si un paterfamilias no había podido
+                    testar, calatis comitiis, y ya estaba próximo a su muerte, realizaba una venta ficticia ante un
+                    libripens y cinco testigos, a la persona que le transmitía los bienes se le denominaba
+                    familiae).</span>
+            </div>
+            <div class="glossary-item" data-term="per-aes-et-libram-2">
+                <span class="term">Per aes et libram</span>: //
+                <span class="definition">Testamento mancipatorio, que consistía en una venta ficticia, efectuada por
+                    medio de la mancipatio, frente al libripens y los cinco testigos.</span>
+            </div>
+            <div class="glossary-item" data-term="per-damnationem">
+                <span class="term">Per damnationem o damnatorio</span>: //
+                <span class="definition">Obligaba al heredero frente al legatario dando lugar a un derecho de crédito
+                    tutelado por una acción personal, la actio ex testamento.</span>
+            </div>
+            <div class="glossary-item" data-term="per-praeceptionem">
+                <span class="term">Per praeceptionem</span>: //
+                <span class="definition">Su forma establecía que el legatario podía “apoderarse con preferencia”,
+                    autorizaba al legatario, que era uno de los herederos, a tomar algo de la herencia antes de su
+                    división y con preferencia a los demás.</span>
+            </div>
+            <div class="glossary-item" data-term="percepti">
+                <span class="term">Percepti</span>: //
+                <span class="definition">Frutos separados que pueden pertenecer a otra persona que tengan algún derecho
+                    sobre la cosa aunq no sea propietario.</span>
+            </div>
+            <div class="glossary-item" data-term="pictura">
+                <span class="term">Pictura</span>: //
+                <span class="definition">Pintura hecha sobre lienzo o madera.</span>
+            </div>
+            <div class="glossary-item" data-term="pignoris-capia">
+                <span class="term">Pignoris capio</span>: //
+                <span class="definition">Toma de prenda.</span>
+            </div>
+            <div class="glossary-item" data-term="pignus-gordianum">
+                <span class="term">Pignus gordianum</span>: //
+                <span class="definition">Derecho del acreedor pignoraticio a retener la cosa que le fue dada en prenda,
+                    una vez cumplida la obligación garantizada con la misma, en garantía del cumplimiento de otra deuda
+                    del mismo deudor.</span>
+            </div>
+            <div class="glossary-item" data-term="pignus">
+                <span class="term">Pignus</span>: //
+                <span class="definition">Prenda.</span>
+            </div>
+            <div class="glossary-item" data-term="plantatio">
+                <span class="term">Plantatio</span>: //
+                <span class="definition">Plantación, o sea árboles plantados.</span>
+            </div>
+            <div class="glossary-item" data-term="poder-disciplinario">
+                <span class="term">Poder disciplinario</span>: //
+                <span class="definition">.</span>
+            </div>
+            <div class="glossary-item" data-term="populum">
+                <span class="term">Populum</span>: //
+                <span class="definition">Asamblea de curias denominada como pueblo.</span>
+            </div>
+            <div class="glossary-item" data-term="possessio">
+                <span class="term">Possessio</span>: //
+                <span class="definition">La posesión debería ser continuada, pues una interrupción hacía necesario el
+                    comienzo de una nueva usucapión con todos sus requisitos.</span>
+            </div>
+            <div class="glossary-item" data-term="possidere">
+                <span class="term">Possidere</span>: //
+                <span class="definition">Posesión.</span>
+            </div>
+            <div class="glossary-item" data-term="potestas-maritalis">
+                <span class="term">Potestas maritalis</span>: //
+                <span class="definition">El paterfamilia tenía el poder de decisión absoluto sobre su esposa.</span>
+            </div>
+            <div class="glossary-item" data-term="potestas">
+                <span class="term">Potestas</span>: //
+                <span class="definition">Poder limitado que tenían los magistrados menores.</span>
+            </div>
+            <div class="glossary-item" data-term="praescriptio-longi-temporis">
+                <span class="term">Praescriptio longi temporis</span>: //
+                <span class="definition">Prescripción de largo tiempo.</span>
+            </div>
+            <div class="glossary-item" data-term="praescriptio">
+                <span class="term">Praescriptio</span>: //
+                <span class="definition">Parte de la ley donde se indica el nombre del magistrado que la propuso y el
+                    día en que fue votada.</span>
+            </div>
+            <div class="glossary-item" data-term="praestare">
+                <span class="term">Praestare</span>: //
+                <span class="definition">Se emplea para aludir al contenido de la obligación en general.</span>
+            </div>
+            <div class="glossary-item" data-term="precepta-iuris">
+                <span class="term">Precepta iuris</span>: //
+                <span class="definition">Preceptos jurídicos.</span>
+            </div>
+            <div class="glossary-item" data-term="prior-tempore-potior-iure">
+                <span class="term">Prior tempore, potior iure</span>: //
+                <span class="definition">Primero en tiempo, primero en derecho.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-derelicto">
+                <span class="term">Pro derelicto</span>: //
+                <span class="definition">Poseer por haber ocupado una cosa que se pensó estaba abandonada.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-donato">
+                <span class="term">Pro donato</span>: //
+                <span class="definition">Poseer como donatario.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-dote">
+                <span class="term">Pro dote</span>: //
+                <span class="definition">Poseer en virtud de la dote.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-emptore">
+                <span class="term">Pro emptore</span>: //
+                <span class="definition">Poseer como comprador.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-herede-gestio">
+                <span class="term">Pro herede gestio</span>: //
+                <span class="definition">Es una aceptación tácita que consistía en que el heredero actuara como tal
+                    usando.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-legato">
+                <span class="term">Pro legato</span>: //
+                <span class="definition">Poseer como legatario.</span>
+            </div>
+            <div class="glossary-item" data-term="pro-soluto">
+                <span class="term">Pro soluto</span>: //
+                <span class="definition">Poseer por haber recibido un pago.</span>
+            </div>
+            <div class="glossary-item" data-term="procurator">
+                <span class="term">Procurator o procura-tor omnium bonorum</span>: //
+                <span class="definition">Persona que representa o administra los bienes de otro individuo.</span>
+            </div>
+
+            <div class="glossary-item" data-term="procurator">
+                <span class="term">Procurator</span>: //
+                <span class="definition">Representante común y corriente, nombrado probablemente a través de un mandato
+                    y obviamente sin requerir la presencia del otro litigante.</span>
+            </div>
+            <div class="glossary-item" data-term="promissio-iurata-liberti">
+                <span class="term">Promissio iurata liberti</span>: //
+                <span class="definition">Por medio de ella el esclavo manumitido se comprometía a determinadas cosas
+                    hacia su antiguo amo.</span>
+            </div>
+            <div class="glossary-item" data-term="proprietas">
+                <span class="term">Proprietas</span>: //
+                <span class="definition">Propiedad.</span>
+            </div>
+            <div class="glossary-item" data-term="protimesis">
+                <span class="term">Protimesis</span>: //
+                <span class="definition">Es el derecho de preferencia que tiene el vendedor de volver a comprar la cosa
+                    si el comprador quisiera venderla.</span>
+            </div>
+            <div class="glossary-item" data-term="provocatio-ad-populum">
+                <span class="term">Provocatio ad populum</span>: //
+                <span class="definition">Recurso del que todo ciudadano disponía frente a la pena de muerte.</span>
+            </div>
+            <div class="glossary-item" data-term="quasi-ex-delicto">
+                <span class="term">Quasi ex delicto</span>: //
+                <span class="definition">Pagar una indemnización.</span>
+            </div>
+            <div class="glossary-item" data-term="quasi-possessio">
+                <span class="term">Quasi possessio</span>: //
+                <span class="definition">Como si poseyera una cosa.</span>
+            </div>
+            <div class="glossary-item" data-term="querela-inofficiosi-testamenti">
+                <span class="term">Querela inofficiosi testamenti</span>: //
+                <span class="definition">Acción de los parientes para impugnar el testamento que los hubiera desheredado
+                    o preterido injustamente.</span>
+            </div>
+            <div class="glossary-item" data-term="querella">
+                <span class="term">Querella</span>: //
+                <span class="definition">Queja que presentaba al magistrado el pariente de un restador cuando se
+                    consideraba aquél injustamente desheredado por éste.</span>
+            </div>
+            <div class="glossary-item" data-term="quirógrafos">
+                <span class="term">Quirógrafos</span>: //
+                <span class="definition">Contratos que constaban en un solo ejemplar, que permanecía en poder del
+                    acreedor.</span>
+            </div>
+            <div class="glossary-item" data-term="re">
+                <span class="term">Re</span>: //
+                <span class="definition">Reales.</span>
+            </div>
+            <div class="glossary-item" data-term="receptum-arbitrii">
+                <span class="term">Receptum arbitrii</span>: //
+                <span class="definition">Pacto por el cual una persona aceptaba ser árbitro en un pleito.</span>
+            </div>
+            <div class="glossary-item" data-term="receptum-argentarii">
+                <span class="term">Receptum argentarii</span>: //
+                <span class="definition">Era el pacto mediante el cual un banquero se comprometía con su cliente a pagar
+                    una deuda que éste tuviera con un tercero.</span>
+            </div>
+            <div class="glossary-item" data-term="receptum-nautarum-cauponum-et-stabulariorum">
+                <span class="term">Receptum nautarum, cauponum et stabulariorum</span>: //
+                <span class="definition">Es el pacto por el cual los navieros, posaderos o dueños de establos se hacían
+                    responsables de mercancías confiadas a su custodia.</span>
+            </div>
+            <div class="glossary-item" data-term="recuperatores">
+                <span class="term">Recuperatores</span>: //
+                <span class="definition">Intervenían en controversias en las que figurara algún extranjero.</span>
+            </div>
+            <div class="glossary-item" data-term="reivindicatio">
+                <span class="term">Reivindicatio</span>: //
+                <span class="definition">Reivindicatoria.</span>
+            </div>
+            <div class="glossary-item" data-term="relocatio-tacita">
+                <span class="term">Relocatio tacita</span>: //
+                <span class="definition">Reconducción tácita.</span>
+            </div>
+            <div class="glossary-item" data-term="rerum">
+                <span class="term">Rerum</span>: //
+                <span class="definition">Si un aporte lo constituían bienes.</span>
+            </div>
+            <div class="glossary-item" data-term="res-communes">
+                <span class="term">Res communes</span>: //
+                <span class="definition">Cosas cuyo uso es común.</span>
+            </div>
+            <div class="glossary-item" data-term="res-derelictae">
+                <span class="term">Res derelictae</span>: //
+                <span class="definition">Su dueño las abandonó.</span>
+            </div>
+            <div class="glossary-item" data-term="res-habilis">
+                <span class="term">Res habilis</span>: //
+                <span class="definition">Este requisito tiene que ver con la cosa que se va a usucapir, que debería
+                    estar in commercium, puesto que las cosas que estaban fuera del comercio no podían ser apropiadas
+                    por los particulares.</span>
+            </div>
+            <div class="glossary-item" data-term="res-in-commercium">
+                <span class="term">Res in commercium</span>: //
+                <span class="definition">Todas las cosas que se encuentran en el mundo del comercio.</span>
+            </div>
+            <div class="glossary-item" data-term="res-mancipi">
+                <span class="term">Res mancipi</span>: //
+                <span class="definition">Cosas mancipables (terrenos y casas propiedad de los ciudadanos
+                    romanos).</span>
+            </div>
+            <div class="glossary-item" data-term="res-nullius">
+                <span class="term">Res nullius</span>: //
+                <span class="definition">Que carecen de dueño/nunca lo tuvieron.</span>
+            </div>
+            <div class="glossary-item" data-term="res-publicae">
+                <span class="term">Res publicae</span>: //
+                <span class="definition">Cosas que pertenecen al pueblo romano.</span>
+            </div>
+            <div class="glossary-item" data-term="res-religiosae">
+                <span class="term">Res religiosae</span>: //
+                <span class="definition">Cosas religiosas.</span>
+            </div>
+            <div class="glossary-item" data-term="res-sacrae">
+                <span class="term">Res sacrae</span>: //
+                <span class="definition">Cosas sagradas.</span>
+            </div>
+            <div class="glossary-item" data-term="res-sanctae">
+                <span class="term">Res sanctae</span>: //
+                <span class="definition">Cosas santas.</span>
+            </div>
+            <div class="glossary-item" data-term="res">
+                <span class="term">Res</span>: //
+                <span class="definition">Cosa o bien.</span>
+            </div>
+            <div class="glossary-item" data-term="restitutio-in-integrum">
+                <span class="term">Restitutio in integrum</span>: //
+                <span class="definition">Remedio extraordinario utilizado por el Pretor en determinadas circunstancias,
+                    para anular un acto o negocio jurídico, que si bien perfectamente válido, acarreaba consecuencias
+                    inicuas y producía efectos notoriamente injustos y perjudiciales.</span>
+            </div>
+            <div class="glossary-item" data-term="reus">
+                <span class="term">Reus</span>: //
+                <span class="definition">Demandado.</span>
+            </div>
+            <div class="glossary-item" data-term="rogatio">
+                <span class="term">Rogatio</span>: //
+                <span class="definition">Propiamente el texto de una ley.</span>
+            </div>
+            <div class="glossary-item" data-term="sacramentum">
+                <span class="term">Sacramentum</span>: //
+                <span class="definition">Hacer sagrado.</span>
+            </div>
+            <div class="glossary-item" data-term="sanctio">
+                <span class="term">Sanctio</span>: //
+                <span class="definition">Los señalamientos a las disposiciones relativas a la observancia y a la sanción
+                    aplicable en caso de que una ley fuera infringida.</span>
+            </div>
+            <div class="glossary-item" data-term="satio">
+                <span class="term">Satio</span>: //
+                <span class="definition">Siembra, esto es, semillas sembradas.</span>
+            </div>
+            <div class="glossary-item" data-term="scribere">
+                <span class="term">Scribere</span>: //
+                <span class="definition">Función del jurisconsulto que consistía en elaborar obras doctrinales de
+                    derecho.</span>
+            </div>
+            <div class="glossary-item" data-term="scriptura">
+                <span class="term">Scriptura</span>: //
+                <span class="definition">Escritura sobre papel o pergamino.</span>
+            </div>
+            <div class="glossary-item" data-term="sedere">
+                <span class="term">Sedere</span>: //
+                <span class="definition">Sentarse o asentarse en una cosa.</span>
+            </div>
+            <div class="glossary-item" data-term="senatus">
+                <span class="term">Senatus</span>: //
+                <span class="definition">Senado.</span>
+            </div>
+            <div class="glossary-item" data-term="senatusconsulta">
+                <span class="term">Senatusconsulta</span>: //
+                <span class="definition">Consejos emitidos por los senados.</span>
+            </div>
+            <div class="glossary-item" data-term="separatio-bonorum">
+                <span class="term">Separatio Bonorum</span>: //
+                <span class="definition">Separación de los bienes que integran el patrimonio del heredero de los que
+                    forman parte la herencia, solicitada del pretor por los acreedores del difunto a fin evitar la
+                    posible insolvencia del heredero y ordenada por el magistrado como garantía de sus créditos.</span>
+            </div>
+            <div class="glossary-item" data-term="sine-manu">
+                <span class="term">Sine manu</span>: //
+                <span class="definition">La esposa permanecía bajo la patria potestad de su padre; la mujer puede tener
+                    sus propios bienes.</span>
+            </div>
+            <div class="glossary-item" data-term="síngrafos">
+                <span class="term">Síngrafos</span>: //
+                <span class="definition">Son contratos que se redactaban por partida doble, quedándose una copia en
+                    poder del acreedor y la otra en poder del deudor.</span>
+            </div>
+            <div class="glossary-item" data-term="societas">
+                <span class="term">Societas</span>: //
+                <span class="definition">Sociedad.</span>
+            </div>
+            <div class="glossary-item" data-term="spatium-deliberandi">
+                <span class="term">Spatium deliberandi</span>: //
+                <span class="definition">Plazo para deliberar.</span>
+            </div>
+            <div class="glossary-item" data-term="spondere">
+                <span class="term">Spondere</span>: //
+                <span class="definition">Alude a las respuestas que dan los juristas sobre problemas jurídicos que
+                    plantean a los magistrados, jueces o particulares.</span>
+            </div>
+            <div class="glossary-item" data-term="sponsio">
+                <span class="term">Sponsio</span>: //
+                <span class="definition">Esponsal.</span>
+            </div>
+            <div class="glossary-item" data-term="stipulatio">
+                <span class="term">Stipulatio</span>: //
+                <span class="definition">Es el más importante de este grupo de contratos. Este es un contrato unilateral
+                    y de estricto derecho.</span>
+            </div>
+            <div class="glossary-item" data-term="successio">
+                <span class="term">Successio</span>: //
+                <span class="definition">Sucesión (se usa precisamente para designar la transmisión que tiene lugar a la
+                    muerte de una persona).</span>
+            </div>
+            <div class="glossary-item" data-term="tabularius">
+                <span class="term">Tabularius</span>: //
+                <span class="definition">Era el funcionario público que, como secretario de la curia municipal, tenía a
+                    su cargo la custodia del archivo correspondiente; y también el de redactar ciertos documentos, como
+                    el inventario de los bienes de los pupilos o de las sucesiones, e incluso extender el testamento de
+                    los ciegos.</span>
+            </div>
+            <div class="glossary-item" data-term="tempus-luctus">
+                <span class="term">Tempus luctus</span>: //
+                <span class="definition">En el caso de la mujer viuda que, para contraer nuevo matrimonio, era necesario
+                    que dejase transcurrir determinado tiempo.</span>
+            </div>
+            <div class="glossary-item" data-term="tempus">
+                <span class="term">Tempus</span>: //
+                <span class="definition">La ley de las XII tablas fijó el plazo necesario para la usucapión, que debía
+                    ser de un año para cosas muebles y dos años para inmuebles.</span>
+            </div>
+            <div class="glossary-item" data-term="testamenti-factio-activa">
+                <span class="term">Testamenti factio activa</span>: //
+                <span class="definition">Se refiere al testador y la testamenti factio passiva se refiere a los
+                    testigos, herederos, legatarios, etc.</span>
+            </div>
+            <div class="glossary-item" data-term="testamenti-factio">
+                <span class="term">Testamenti factio</span>: //
+                <span class="definition">Capacidad para testar y para ser instituido en un testamento.</span>
+            </div>
+            <div class="glossary-item" data-term="testamentum-apud-acta-conditum">
+                <span class="term">Testamentum apud acta conditum</span>: //
+                <span class="definition">Forma de testamento público, confirmada como válido por el emperador Honorio en
+                    el año 413 d. C. Consistente en una declaración verbal realizada por el testador ante el magistrado
+                    judicial o ante la autoridad municipal. Su declaración era transcrita y registrada en un acta
+                    pública.</span>
+            </div>
+            <div class="glossary-item" data-term="testamentum-calatis-comitiis">
+                <span class="term">Testamentum calatis comitiis</span>: //
+                <span class="definition">Forma de testamento del derecho romano que consiste en la declaración de la
+                    voluntad por el testador ante los comitia curiata, reunidos dos veces al año (probablemente 24 de
+                    marzo- 24 de mayo) previa convocatoria y presididos por el pontifex maximus. Se discute la
+                    interpretación de las fuentes del papel que representaba el pueblo, si el de mero testigo espectador
+                    o si daba su aprobación cual si se tratara de una ley.</span>
+            </div>
+            <div class="glossary-item" data-term="testamentum-destitutum">
+                <span class="term">Testamentum destitutum</span>: //
+                <span class="definition">Ninguno de los herederos instituidos llegara a adquirir la herencia.</span>
+            </div>
+            <div class="glossary-item" data-term="testamentum-nullum">
+                <span class="term">Testamentum nullum</span>: //
+                <span class="definition">Testamento nulo.</span>
+            </div>
+            <div class="glossary-item" data-term="testamentum-ruptum">
+                <span class="term">Testamentum ruptum</span>: //
+                <span class="definition">Por nacimiento de un postumus suus que no hubiera sido tomado en cuenta, ya
+                    fuera para instituirlo o para desheredarlo.</span>
+            </div>
+            <div class="glossary-item" data-term="textura">
+                <span class="term">Textura</span>: //
+                <span class="definition">Bordado o tejido que se incorpora a una tela.</span>
+            </div>
+            <div class="glossary-item" data-term="tinctura">
+                <span class="term">Tinctura</span>: //
+                <span class="definition">Coloración de telas.</span>
+            </div>
+            <div class="glossary-item" data-term="titulus">
+                <span class="term">Titulus</span>: //
+                <span class="definition">El título es aquel que justifica la posesión; en otras palabras, esto quiere
+                    decir que la posesión debe estar fundada en una justa causa de adquisición.</span>
+            </div>
+            <div class="glossary-item" data-term="tradens">
+                <span class="term">Tradens</span>: //
+                <span class="definition">El que entrega/hacer tradición.</span>
+            </div>
+            <div class="glossary-item" data-term="traditio">
+                <span class="term">Traditio</span>: //
+                <span class="definition">Tradición.</span>
+            </div>
+            <div class="glossary-item" data-term="tribuni-plebis">
+                <span class="term">Tribuni plebis</span>: //
+                <span class="definition">Los tribunos de la plebe.</span>
+            </div>
+            <div class="glossary-item" data-term="tripertitum">
+                <span class="term">Tripertitum</span>: //
+                <span class="definition">Tomó del derecho antiguo la necesidad de los testigos y su presencia en un solo
+                    acto; del derecho honorario, los sellos y el número de testigos; y de las constituciones imperiales,
+                    el requisito de las firmas del testador y de los testigos.</span>
+            </div>
+            <div class="glossary-item" data-term="turbatio-sanguinis">
+                <span class="term">Turbatio sanguinis</span>: //
+                <span class="definition">El introducir a un matrimonio un producto proveniente de otro.</span>
+            </div>
+            <div class="glossary-item" data-term="usucapi">
+                <span class="term">Usucapi</span>: //
+                <span class="definition">Adquisición de la propiedad por la posesión continuada durante el tiempo
+                    señalado por la ley.</span>
+            </div>
+            <div class="glossary-item" data-term="usucapio-pro-herede">
+                <span class="term">Usucapio pro herede</span>: //
+                <span class="definition">Cualquier tercero que obtuviera la posesión de los bienes hereditarios y la
+                    conservara pacíficamente por un año, se convertía en dueño de los mismos.</span>
+            </div>
+            <div class="glossary-item" data-term="usus">
+                <span class="term">Usus</span>: //
+                <span class="definition">Establecía por el simple transcurso del tiempo.</span>
+            </div>
+            <div class="glossary-item" data-term="venia-aetatis">
+                <span class="term">Venia aetatis</span>: //
+                <span class="definition">Todo individuo menor de veinticinco años tuviese que estar sometido a este
+                    régimen de curatela podía variar si se le concedía la liberación de ella por un decreto especial;
+                    una vez que hubiera cumplido los veinte.</span>
+            </div>
+            <div class="glossary-item" data-term="verbis-verbales">
+                <span class="term">Verbis</span>: //
+                <span class="definition">Verbales.</span>
+            </div>
+            <div class="glossary-item" data-term="verbis-voluntades">
+                <span class="term">Verbis</span>: //
+                <span class="definition">Voluntades mediante palabras.</span>
+            </div>
+            <div class="glossary-item" data-term="vi-armata">
+                <span class="term">Vi armata</span>: //
+                <span class="definition">Se utilizaba para defenderse cuando la desposesión se había realizado con la
+                    ayuda de hombres armados.</span>
+            </div>
+            <div class="glossary-item" data-term="vi">
+                <span class="term">Vi</span>: //
+                <span class="definition">Posesión adquirida violentamente.</span>
+            </div>
+
+
+
+
+
+        </div>
+
+        <!-- Sección "Principios de Derecho" más abajo en la página -->
+
+
+        <section id="principios-derecho">
+            <h2>Principios de Derecho</h2>
+            <p>Debajo se muestran los conceptos referente a Principios de Derecho.</p>
+
+
+            <div class="glossary-item" data-term="abusus-non-est-usus">
+                <span class="term">Abusus non est usus</span>: //
+                <span class="definition">“El abuso no es uso, es corruptela”.</span>
+            </div>
+            <div class="glossary-item" data-term="accessorium-ceda-principali">
+                <span class="term">Accessorium ceda principali</span>: //
+                <span class="definition">“Lo accesorio cede a lo principal”.</span>
+            </div>
+            <div class="glossary-item" data-term="accessorium-sequitur-principale">
+                <span class="term">Accessorium sequitur principale</span>: //
+                <span class="definition">“Lo accesorio sigue a lo principal”.</span>
+            </div>
+            <div class="glossary-item" data-term="accessorium-solo-cedit">
+                <span class="term">Accessorium solo cedit</span>: //
+                <span class="definition">“Lo accesorio cede al suelo”.</span>
+            </div>
+            <div class="glossary-item" data-term="actio-non-datur-non-damnificato">
+                <span class="term">Actio non datur non damnificato</span>: //
+                <span class="definition">“No se concede acción a quien no ha sido perjudicado.”</span>
+            </div>
+            <div class="glossary-item" data-term="actio-nondum-nata-non-praescribitur">
+                <span class="term">Actio nondum nata non praescribitur</span>: //
+                <span class="definition">“La acción que aún no ha nacido no prescribe”.</span>
+            </div>
+            <div class="glossary-item" data-term="actus-legis-nemini-facit-injurium">
+                <span class="term">Actus legis nemini facit injurium</span>: //
+                <span class="definition">“El acto de la ley no causa perjuicios”.</span>
+            </div>
+            <div class="glossary-item" data-term="actus-non-facit-reum-nisi-mens-sit-rea">
+                <span class="term">Actus non facit reum, nisi mens sit rea</span>: //
+                <span class="definition">“Ningún acto es punible que no sea resultado de una mente culpable”.</span>
+            </div>
+            <div class="glossary-item" data-term="ad-exemplum">
+                <span class="term">Ad exemplum</span>: //
+                <span class="definition">“Para ejemplo”.</span>
+            </div>
+            <div class="glossary-item" data-term="aequitas-in-dubiis-praevalet">
+                <span class="term">Aequitas in dubiis praevalet</span>: //
+                <span class="definition">“En la duda, prevalece la equidad”.</span>
+            </div>
+            <div class="glossary-item" data-term="alterum-non-leadere">
+                <span class="term">Alterum non leadere</span>: //
+                <span class="definition">“No dañar al otro”.</span>
+            </div>
+            <div class="glossary-item" data-term="cuius-hereditate-agitur">
+                <span class="term">Cuius hereditate agitur</span>: //
+                <span class="definition">“De cuya herencia se trata”.</span>
+            </div>
+            <div class="glossary-item" data-term="do-ut-des">
+                <span class="term">Do ut des</span>: //
+                <span class="definition">“Doy para que des”.</span>
+            </div>
+            <div class="glossary-item" data-term="do-ut-facias">
+                <span class="term">Do ut facias</span>: //
+                <span class="definition">“Doy para que hagas”.</span>
+            </div>
+            <div class="glossary-item" data-term="facio-ut-des">
+                <span class="term">Facio ut des</span>: //
+                <span class="definition">“Hago para que des”.</span>
+            </div>
+            <div class="glossary-item" data-term="facio-ut-facias">
+                <span class="term">Facio ut facias</span>: //
+                <span class="definition">“Hago para que hagas”.</span>
+            </div>
+            <div class="glossary-item" data-term="honeste-vivere">
+                <span class="term">Honeste vivere</span>: //
+                <span class="definition">“Vivir honestamente”.</span>
+            </div>
+            <div class="glossary-item" data-term="iurisprudentia-est-divinarum">
+                <span class="term">Iurisprudentia est divinarum atque humanarum rerum notitia, iusti atque iniusti
+                    scientia</span>: //
+                <span class="definition">“La jurisprudencia es el conocimiento de las cosas divinas y humanas y ciencia
+                    de lo justo y de lo injusto”.</span>
+            </div>
+            <div class="glossary-item" data-term="iustitia-est-constans">
+                <span class="term">Iustitia est constans et perpetua voluntas ius suum cuique tribendi</span>: //
+                <span class="definition">“La justicia es la voluntad firme y constante de dar a cada quien lo
+                    suyo”.</span>
+            </div>
+            <div class="glossary-item" data-term="nemo-pro-parte">
+                <span class="term">Nemo pro parte testatus, pro parte intestatus decedere potest</span>: //
+                <span class="definition">“Nadie puede morir en parte testado y en parte intestado”.</span>
+            </div>
+            <div class="glossary-item" data-term="nuptiae-sunt-coniunctio">
+                <span class="term">Nuptiae sunt coniunctio maris et feminae et consortium omnis vitae, divini et humani
+                    iuris communication</span>: //
+                <span class="definition">“La unión de un hombre y una mujer implicando igualdad de condición y comunidad
+                    de derechos divinos y humanos”.</span>
+            </div>
+            <div class="glossary-item" data-term="obligatio-est-iuris-vinculum">
+                <span class="term">Obligatio est iuris vinculum, quo necessitate adstringimur alicuius solvendae rei,
+                    secundum nostrae civitatis iura</span>: //
+                <span class="definition">“La obligación es un vínculo jurídico por el que somos constreñidos con la
+                    necesidad de pagar alguna cosa según las leyes de nuestra ciudad”.</span>
+            </div>
+            <div class="glossary-item" data-term="obligationum-substantia">
+                <span class="term">Obligationum substantia non in eo consistit, ut aliquod corpus nostrum aut servitutem
+                    nostrat faciat, sed ut alium nobis obstringat ad dandum aliquid vel faciendum vel
+                    praestandum</span>: //
+                <span class="definition">“La esencia de la obligación no consiste en que uno haga nuestra una cosa o una
+                    servidumbre, sino en constreñir a otro para que nos dé, haga o indemnice algo”.</span>
+            </div>
+            <div class="glossary-item" data-term="semel-heres-semper-heres">
+                <span class="term">Semel heres, semper heres</span>: //
+                <span class="definition">“Heredero una vez instituido es siempre heredero”.</span>
+            </div>
+            <div class="glossary-item" data-term="sequens-divisio">
+                <span class="term">Sequens divisio in quatuor species deducitur</span>: //
+                <span class="definition">“Las obligaciones o nacen de un contrato o de un cuasicontrato o de un delito o
+                    de un cuasidelito”.</span>
+            </div>
+            <div class="glossary-item" data-term="suum-cuique-tribuere">
+                <span class="term">Suum cuique tribuere</span>: //
+                <span class="definition">“Dar a cada quien lo suyo”.</span>
+            </div>
+            <div class="glossary-item" data-term="vis-ac-potestas">
+                <span class="term">Vis ac potestas in capite libero ad tuendum eum, qui propter aetatem sua sponte se
+                    defendere nequit, iure civili data ac permissa</span>: //
+                <span class="definition">“El poder dado y permitido por el derecho civil, sobre una cabeza libre a
+                    afecto de protegerlo en virtud de que a causa de su edad no puede defenderse por sí mismo”.</span>
+            </div>
+
+
+
+
+
+
+
+
+        </section>
+
+    </main>
+
+    <footer class="footer" id="footer">
+
+        <div class="container">
+            <div class="col-md-7">
+                <div class="col-md-7">
+                    <h5>Referencias:</h5>
+                    <p>
+                        MORINEAU Iduarte Marta, IGLESIAS González Román. (2008).
+                        <i>Derecho Romano</i> (4a ed.). Oxford University Press.
+                        <a href="https://drive.google.com/file/d/1QQYT2srou2eom-QbSFx56ejimH8ueEV0/view?usp=sharing">VER
+                            LIBRO</a>
+                    </p>
+
+
+                    <br>
+                </div>
+                <h5>Colaboradores:</h5>
+                <p>Docentes:</p>
+                <p>Lic. ALMA GRISELDA RODRIGUEZ OZAETA
+                    <!--     <a href="mailto:gvota@uach.mx
+                    ">CORREO UACH</a> -->
+                </p>
+
+                <p>Lic. MANUEL ALEJANDRO LOPEZ RODRIGUEZ
+
+                    <!--     <a href="mailto:gvota@uach.mx
+                    ">CORREO UACH</a> -->
+                </p>
+                <p>Lic. GUISEPPE ALEJANDRO VOTA CHAVEZ
+                    <!--     <a href="mailto:gvota@uach.mx
+                    ">CORREO UACH</a> -->
+                </p>
+                <p>Alumna: <i>Grace Alcalá De la O</i></p>
+                <p>Sistemas: <i>Ing. Erick Saldivar Regalado </i></p>
+
+                <br></br>
+
+
+            </div>
+            <br>
+
+
+            <div class="row">
+                <div class="col-12 text-center">
+
+                    <h5>UNIVERSIDAD AUTONOMA DE CHIHUAHUA</h5>
+                    <p>FACULTAD DE DERECHO <br> CAMPUS PARRAL</p><br>
+
+
+
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        function mostrarSugerencias() {
+            const searchTerm = document.querySelector('.search-box').value.toLowerCase();
+            const suggestionsContainer = document.getElementById('sugerencias');
+            const glossaryItems = document.querySelectorAll('.glossary-item');
+
+            suggestionsContainer.innerHTML = '';
+
+            if (searchTerm === '') {
+                glossaryItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+                return;
+            }
+
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.term').textContent.toLowerCase();
+
+                if (term.includes(searchTerm)) {
+                    const suggestion = document.createElement('div');
+                    suggestion.classList.add('autocomplete-suggestion');
+                    suggestion.textContent = term;
+
+                    suggestion.onclick = () => {
+                        document.querySelector('.search-box').value = term;
+                        suggestionsContainer.innerHTML = '';
+                        buscarConcepto();
+                    };
+
+                    suggestionsContainer.appendChild(suggestion);
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function buscarConcepto() {
+            const searchTerm = document.querySelector('.search-box').value.toLowerCase();
+            const glossaryItems = document.querySelectorAll('.glossary-item');
+
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.term').textContent.toLowerCase();
+                item.style.display = term.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        document.querySelector('.search-box').addEventListener('keyup', mostrarSugerencias);
+
+        // Limpiar sugerencias al perder el foco
+        document.querySelector('.search-box').addEventListener('blur', () => {
+            setTimeout(() => {
+                document.getElementById('sugerencias').innerHTML = '';
+            }, 200);
+        });
+        window.addEventListener("scroll", function () {
+            var searchContainer = document.querySelector(".search-container");
+            var offset = searchContainer.offsetTop;
+
+            if (window.pageYOffset > offset) {
+                searchContainer.classList.add("fixed");
+            } else {
+                searchContainer.classList.remove("fixed");
+            }
+        });
+
+
+
+    </script>
+
+
+
+    <script>
+        function mostrarSugerencias() {
+            const searchTerm = document.querySelector('.search-box').value.toLowerCase();
+            const suggestionsContainer = document.getElementById('sugerencias');
+            const glossaryItems = document.querySelectorAll('.glossary-item');
+
+            suggestionsContainer.innerHTML = '';
+
+            if (searchTerm === '') {
+                glossaryItems.forEach(item => {
+                    item.style.display = 'block';
+                });
+                return;
+            }
+
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.term').textContent.toLowerCase();
+
+                if (term.includes(searchTerm)) {
+                    const suggestion = document.createElement('div');
+                    suggestion.classList.add('autocomplete-suggestion');
+                    suggestion.textContent = term;
+
+                    suggestion.onclick = () => {
+                        document.querySelector('.search-box').value = term;
+                        suggestionsContainer.innerHTML = '';
+                        buscarConcepto();
+                    };
+
+                    suggestionsContainer.appendChild(suggestion);
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function buscarConcepto() {
+            const searchTerm = document.querySelector('.search-box').value.toLowerCase();
+            const glossaryItems = document.querySelectorAll('.glossary-item');
+
+            glossaryItems.forEach(item => {
+                const term = item.querySelector('.term').textContent.toLowerCase();
+                item.style.display = term.includes(searchTerm) ? 'block' : 'none';
+            });
+        }
+
+        document.querySelector('.search-box').addEventListener('keyup', mostrarSugerencias);
+
+        // Limpiar sugerencias al perder el foco
+        document.querySelector('.search-box').addEventListener('blur', () => {
+            setTimeout(() => {
+                document.getElementById('sugerencias').innerHTML = '';
+            }, 200);
+        });
+
+        window.addEventListener("scroll", function () {
+            var searchContainer = document.querySelector(".search-container");
+            var offset = searchContainer.offsetTop;
+
+            if (window.pageYOffset > offset) {
+                searchContainer.classList.add("fixed");
+            } else {
+                searchContainer.classList.remove("fixed");
+            }
+        });
+    </script>
+
+    <script>
+        function toggleLinks() {
+            const links = document.getElementById('links');
+            links.style.display = links.style.display === 'none' ? 'block' : 'none';
+
+            const staticLinks = document.querySelectorAll('.static-link');
+            staticLinks.forEach(link => {
+                link.classList.toggle('visible');
+            });
+        }
+    </script>
+
+    <!-- Bootstrap JS (necesario para funcionalidad de colapso) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- JavaScript para ocultar el menú automáticamente -->
+    <script>
+        // Cierra el menú de hamburguesa al hacer clic en un enlace
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                var navbarCollapse = document.querySelector('.navbar-collapse');
+                var bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                    toggle: false
+                });
+                bsCollapse.hide(); // Ocultar el menú
+            });
+        });
+    </script>
+
+    <script>
+        window.addEventListener('load', function () {
+            // Cuando la página haya cargado, aplica la clase con la animación
+            document.querySelector('.search-box').classList.add('move-to-position');
+        });
+    </script>
+
+    <script>
+        document.addEventListener('click', function (event) {
+            var navbar = document.querySelector('#navbarContent');
+            var toggler = document.querySelector('.navbar-toggler');
+
+            // Si el menú está visible y el clic fue fuera del menú y fuera del botón de hamburguesa
+            if (navbar.classList.contains('show') && !navbar.contains(event.target) && !toggler.contains(event.target)) {
+                var bsCollapse = new bootstrap.Collapse(navbar);
+                bsCollapse.hide(); // Ocultar el menú
+            }
+        });
+    </script>
+
+    <script>
+        window.onscroll = function () {
+            var searchContainer = document.querySelector('.search-container');
+            var scrollPosition = window.pageYOffset;
+
+            if (scrollPosition > 100) { // Ajusta el valor según cuando quieres que se fije
+                searchContainer.classList.add('fixed');
+            } else {
+                searchContainer.classList.remove('fixed');
+            }
+        };
+
+    </script>
+
+</body>
+
+</html>
